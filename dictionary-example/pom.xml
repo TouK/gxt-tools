@@ -78,7 +78,6 @@
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>gwt-maven-plugin</artifactId>
-                        <version>2.0.0</version>
                         <configuration>
                             <className>
                                 pl.touk.top.dictionary.webapp.DictionaryDemoModule
@@ -160,163 +159,163 @@
                 <!--</plugins>-->
             <!--</build>-->
         <!--</profile>-->
-        <profile>
+        <!--<profile>-->
+            <!--<id>hosted</id>-->
+            <!--<activation>-->
+                <!--<property>-->
+                    <!--<name>hosted</name>-->
+                <!--</property>-->
+            <!--</activation>-->
+            <!--<build>-->
+                <!--<plugins>-->
+
+                    <!--<plugin>-->
+                        <!--<groupId>org.codehaus.mojo</groupId>-->
+                        <!--<artifactId>properties-maven-plugin</artifactId>-->
+                        <!--<version>1.0.2-touk</version>-->
+                        <!--<executions>-->
+                            <!--<execution>-->
+                                <!--<phase>initialize</phase>-->
+                                <!--<goals>-->
+                                    <!--<goal>read-project-properties</goal>-->
+                                <!--</goals>-->
+                                <!--<configuration>-->
+                                    <!--<files>-->
+                                        <!--<file>gwt.properties</file>-->
+                                    <!--</files>-->
+                                <!--</configuration>-->
+                            <!--</execution>-->
+                        <!--</executions>-->
+                    <!--</plugin>-->
+                    <!--<plugin>-->
+                        <!--<groupId>org.codehaus.mojo</groupId>-->
+                        <!--<artifactId>exec-maven-plugin</artifactId>-->
+                        <!--<version>1.0.4-touk</version>-->
+                        <!--<executions>-->
+                            <!--<execution>-->
+                                <!--<goals>-->
+                                    <!--<goal>exec</goal>-->
+                                <!--</goals>-->
+                            <!--</execution>-->
+                        <!--</executions>-->
+                        <!--<configuration>-->
+                            <!--<executable>${java.executable}</executable>-->
+                            <!--<arguments>-->
+                                <!--<argument>-Xmx256m</argument>-->
+                                <!--<argument>-Xms128m</argument>-->
+                                <!--<argument>-Xdebug</argument>-->
+                                <!--<argument>-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8002</argument>-->
+                                <!--<argument>-classpath</argument>-->
+                                <!--<classpath>-->
+                                    <!--<path>-->
+                                        <!--${project.basedir}/src/main/java-->
+                                    <!--</path>-->
+                                    <!--<path>-->
+                                        <!--${project.basedir}/../wdictionary-lib/src/main/java-->
+                                    <!--</path>-->
+
+                                    <!--<path>${gwt.home.dir}</path>-->
+                                    <!--<path>${gwt.dev.jar}</path>-->
+                                <!--</classpath>-->
+                                <!--<argument>-->
+                                    <!--com.google.gwt.dev.GWTShell-->
+                                <!--</argument>-->
+                                <!--<argument>-out</argument>-->
+                                <!--<argument>-->
+                                    <!--${project.build.directory}/www-->
+                                <!--</argument>-->
+                                <!--<argument>-noserver</argument>-->
+                                <!--<argument>${app.url}</argument>-->
+                            <!--</arguments>-->
+                        <!--</configuration>-->
+                    <!--</plugin>-->
+
+                <!--</plugins>-->
+            <!--</build>-->
+        <!--</profile>-->
+
+        <!--<profile>-->
+            <!--<id>machosted</id>-->
+            <!--<activation>-->
+                <!--<property>-->
+                    <!--<name>machosted</name>-->
+                <!--</property>-->
+            <!--</activation>-->
+            <!--<build>-->
+                <!--<plugins>-->
+
+                    <!--<plugin>-->
+                        <!--<groupId>org.codehaus.mojo</groupId>-->
+                        <!--<artifactId>properties-maven-plugin</artifactId>-->
+                        <!--<version>1.0.1-touk</version>-->
+                        <!--<executions>-->
+                            <!--<execution>-->
+                                <!--<phase>initialize</phase>-->
+                                <!--<goals>-->
+                                    <!--<goal>read-project-properties</goal>-->
+                                <!--</goals>-->
+                                <!--<configuration>-->
+                                    <!--<files>-->
+                                        <!--<file>gwt.properties</file>-->
+                                    <!--</files>-->
+                                <!--</configuration>-->
+                            <!--</execution>-->
+                        <!--</executions>-->
+                    <!--</plugin>-->
+
+                    <!--<plugin>-->
+                        <!--<groupId>org.codehaus.mojo</groupId>-->
+                        <!--<artifactId>exec-maven-plugin</artifactId>-->
+                        <!--<version>1.0.2-touk</version>-->
+                        <!--<executions>-->
+                            <!--<execution>-->
+                                <!--<goals>-->
+                                    <!--<goal>exec</goal>-->
+                                <!--</goals>-->
+                            <!--</execution>-->
+                        <!--</executions>-->
+                        <!--<configuration>-->
+                            <!--<executable>${java.executable}</executable>-->
+                            <!--<arguments>-->
+                                <!--<argument>-XstartOnFirstThread</argument>-->
+                                <!--<argument>-Xmx1024m</argument>-->
+                                <!--<argument>-Xms1024m</argument>-->
+                                <!--<argument>-Xdebug</argument>-->
+                                <!--<argument>-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8002</argument>-->
+                                <!--<argument>-classpath</argument>-->
+                                <!--<classpath>-->
+                                    <!--<path>-->
+                                        <!--${project.basedir}/src/main/java-->
+                                    <!--</path>-->
+                                    <!--<path>-->
+                                        <!--${project.basedir}/../wonderful-dictionary-lib/src/main/java-->
+                                    <!--</path>-->
+                                    <!--<path>${gwt.home.dir}</path>-->
+                                    <!--<path>${gwt.dev.jar}</path>-->
+
+                                <!--</classpath>-->
+                                <!--<argument>-->
+                                    <!--com.google.gwt.dev.GWTShell-->
+                                <!--</argument>-->
+                                <!--<argument>-out</argument>-->
+                                <!--<argument>-->
+                                    <!--${project.build.directory}/www-->
+                                <!--</argument>-->
+                                <!--<argument>-noserver</argument>-->
+                                <!--<argument>${app.url}</argument>-->
+                            <!--</arguments>-->
+                        <!--</configuration>-->
+                    <!--</plugin>-->
+
+                <!--</plugins>-->
+            <!--</build>-->
+        <!--</profile>-->
+
+          <profile>
             <id>hosted</id>
             <activation>
                 <property>
                     <name>hosted</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>properties-maven-plugin</artifactId>
-                        <version>1.0.2-touk</version>
-                        <executions>
-                            <execution>
-                                <phase>initialize</phase>
-                                <goals>
-                                    <goal>read-project-properties</goal>
-                                </goals>
-                                <configuration>
-                                    <files>
-                                        <file>gwt.properties</file>
-                                    </files>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <version>1.0.4-touk</version>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <executable>${java.executable}</executable>
-                            <arguments>
-                                <argument>-Xmx256m</argument>
-                                <argument>-Xms128m</argument>
-                                <argument>-Xdebug</argument>
-                                <argument>-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8002</argument>
-                                <argument>-classpath</argument>
-                                <classpath>
-                                    <path>
-                                        ${project.basedir}/src/main/java
-                                    </path>
-                                    <path>
-                                        ${project.basedir}/../wdictionary-lib/src/main/java
-                                    </path>
-
-                                    <path>${gwt.home.dir}</path>
-                                    <path>${gwt.dev.jar}</path>
-                                </classpath>
-                                <argument>
-                                    com.google.gwt.dev.GWTShell
-                                </argument>
-                                <argument>-out</argument>
-                                <argument>
-                                    ${project.build.directory}/www
-                                </argument>
-                                <argument>-noserver</argument>
-                                <argument>${app.url}</argument>
-                            </arguments>
-                        </configuration>
-                    </plugin>
-
-                </plugins>
-            </build>
-        </profile>
-
-        <profile>
-            <id>machosted</id>
-            <activation>
-                <property>
-                    <name>machosted</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>properties-maven-plugin</artifactId>
-                        <version>1.0.1-touk</version>
-                        <executions>
-                            <execution>
-                                <phase>initialize</phase>
-                                <goals>
-                                    <goal>read-project-properties</goal>
-                                </goals>
-                                <configuration>
-                                    <files>
-                                        <file>gwt.properties</file>
-                                    </files>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <version>1.0.2-touk</version>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <executable>${java.executable}</executable>
-                            <arguments>
-                                <argument>-XstartOnFirstThread</argument>
-                                <argument>-Xmx1024m</argument>
-                                <argument>-Xms1024m</argument>
-                                <argument>-Xdebug</argument>
-                                <argument>-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8002</argument>
-                                <argument>-classpath</argument>
-                                <classpath>
-                                    <path>
-                                        ${project.basedir}/src/main/java
-                                    </path>
-                                    <path>
-                                        ${project.basedir}/../wonderful-dictionary-lib/src/main/java
-                                    </path>
-                                    <path>${gwt.home.dir}</path>
-                                    <path>${gwt.dev.jar}</path>
-
-                                </classpath>
-                                <argument>
-                                    com.google.gwt.dev.GWTShell
-                                </argument>
-                                <argument>-out</argument>
-                                <argument>
-                                    ${project.build.directory}/www
-                                </argument>
-                                <argument>-noserver</argument>
-                                <argument>${app.url}</argument>
-                            </arguments>
-                        </configuration>
-                    </plugin>
-
-                </plugins>
-            </build>
-        </profile>
-
-          <profile>
-            <id>hosted2</id>
-            <activation>
-                <property>
-                    <name>hosted2</name>
                 </property>
             </activation>
             <build>
@@ -406,158 +405,17 @@
             <groupId>org.apache.derby</groupId>
         </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>commons-logging</groupId>-->
-            <!--<artifactId>commons-logging</artifactId>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>junit</groupId>-->
-        <!--<artifactId>junit</artifactId>-->
-        <!--</dependency>-->
-
-        <!--<dependency>-->
-        <!--<groupId>org.springframework</groupId>-->
-        <!--<artifactId>spring-test</artifactId>-->
-        <!--</dependency>-->
-
-        <!--<dependency>-->
-            <!--<groupId>pl.touk.top</groupId>-->
-            <!--<artifactId>wonderful-dictionary-lib</artifactId>-->
-            <!--<version>${project.version}</version>-->
-        <!--</dependency>-->
 
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy-all</artifactId>
         </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>pl.touk</groupId>-->
-            <!--<artifactId>wonderful-security-lib</artifactId>-->
-        <!--</dependency>-->
-
-        <!--<dependency>-->
-        <!--<groupId>org.springframework</groupId>-->
-        <!--<artifactId>spring-web</artifactId>-->
-        <!--</dependency>-->
-
-        <!--<dependency>-->
-        <!--<groupId>org.springframework</groupId>-->
-        <!--<artifactId>spring-webmvc</artifactId>-->
-        <!--</dependency>-->
-
-        <!--<dependency>-->
-        <!--<groupId>org.springframework.security</groupId>-->
-        <!--<artifactId>spring-security-core</artifactId>-->
-        <!--</dependency>-->
-
-        <!--<dependency>-->
-        <!--<groupId>org.springframework.security</groupId>-->
-        <!--<artifactId>spring-security-core-tiger</artifactId>-->
-        <!--</dependency>-->
-
-        <!--<dependency>-->
-        <!--<groupId>jboss</groupId>-->
-        <!--<artifactId>javassist</artifactId>-->
-        <!--</dependency>-->
-
-
-        <!-- HIBERNATE -->
-        <!--<dependency>-->
-        <!--<groupId>org.hibernate</groupId>-->
-        <!--<artifactId>hibernate-annotations</artifactId>-->
-        <!--<exclusions>-->
-        <!--<exclusion>-->
-        <!--<groupId>javax.transaction</groupId>-->
-        <!--<artifactId>jta</artifactId>-->
-        <!--</exclusion>-->
-        <!--</exclusions>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>javax.transaction</groupId>-->
-        <!--<artifactId>jta</artifactId>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>org.hibernate</groupId>-->
-        <!--<artifactId>hibernate-commons-annotations</artifactId>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>org.hibernate</groupId>-->
-        <!--<artifactId>hibernate-tools</artifactId>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>org.hibernate</groupId>-->
-        <!--<artifactId>hibernate-entitymanager</artifactId>-->
-        <!--</dependency>-->
-
-        <!-- Google Web Toolkit -->
-        <!--<dependency>-->
-        <!--<groupId>com.google.gwt</groupId>-->
-        <!--<artifactId>gwt-servlet</artifactId>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>com.google.gwt</groupId>-->
-        <!--<artifactId>gwt-user</artifactId>-->
-        <!--</dependency>-->
 
         <dependency>
             <groupId>pl.touk.gwt</groupId>
             <artifactId>gxt-tools-lib</artifactId>
         </dependency>
 
-        <!--<dependency>-->
-        <!--<groupId>com.extjs</groupId>-->
-        <!--<artifactId>gxt</artifactId>-->
-        <!--</dependency>-->
-
-        <!--<dependency>-->
-        <!--<groupId>javax.servlet</groupId>-->
-        <!--<artifactId>servlet-api</artifactId>-->
-        <!--<scope>provided</scope>-->
-        <!--</dependency>-->
-
-        <!--<dependency>-->
-        <!--<groupId>net.sf.hibernate4gwt</groupId>-->
-        <!--<artifactId>hibernate4gwt</artifactId>-->
-        <!--</dependency>-->
-
-
-        <!--<dependency>-->
-            <!--<groupId>net.sf.beanlib</groupId>-->
-            <!--<artifactId>beanlib</artifactId>-->
-            <!--<exclusions>-->
-                <!--<exclusion>-->
-                    <!--<groupId>commons-logging</groupId>-->
-                    <!--<artifactId>commons-logging-api</artifactId>-->
-                <!--</exclusion>-->
-                <!--<exclusion>-->
-                    <!--<groupId>xstream</groupId>-->
-                    <!--<artifactId>xstream</artifactId>-->
-                <!--</exclusion>-->
-            <!--</exclusions>-->
-        <!--</dependency>-->
-
-
-        <!--<dependency>-->
-            <!--<groupId>net.sf.beanlib</groupId>-->
-            <!--<artifactId>beanlib-hibernate</artifactId>-->
-        <!--</dependency>-->
-
-        <!--<dependency>-->
-            <!--<groupId>com.thoughtworks.xstream</groupId>-->
-            <!--<artifactId>xstream</artifactId>-->
-        <!--</dependency>-->
-
-        <!--<dependency>-->
-        <!--<groupId>net.sf.gwt-widget</groupId>-->
-        <!--<artifactId>gwt-sl</artifactId>-->
-        <!--</dependency>-->
-
-
-        <!--<dependency>-->
-        <!--<groupId>commons-beanutils</groupId>-->
-        <!--<artifactId>commons-beanutils</artifactId>-->
-        <!--<scope>test</scope>-->
-        <!--</dependency>-->
     </dependencies>
 </project>

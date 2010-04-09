@@ -170,7 +170,6 @@
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>gwt-maven-plugin</artifactId>
-                        <version>${gwt-maven-plugin.version}</version>
                         <configuration>
                             <className>
                                 pl.touk.example.gwt.ExampleModule
@@ -192,8 +191,6 @@
                                 </goals>
                             </execution>
                         </executions>
-                        <dependencies>
-                        </dependencies>
                     </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
