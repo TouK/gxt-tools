@@ -1,0 +1,127 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>gxt-tools-lib</artifactId>
+    <packaging>jar</packaging>
+    <name>Gxt tools jar library</name>
+    <version>1.4.1-SNAPSHOT</version>
+
+    <parent>
+        <groupId>pl.touk.gwt</groupId>
+        <artifactId>gxt-tools</artifactId>
+        <version>1.4.1-SNAPSHOT</version>
+    </parent>
+
+    <build>
+
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.java</include>
+                    <include>**/*.css</include>
+                    <include>**/*gwt.xml</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
+    </build>
+
+
+    <dependencies>
+
+        <dependency>
+            <groupId>pl.touk</groupId>
+            <artifactId>mission-pack</artifactId>
+            <version>1.0.2</version>
+            <type>pom</type>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.touk</groupId>
+            <artifactId>gxt-mission-pack</artifactId>
+            <version>1.0</version>
+            <type>pom</type>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+
+        <dependency>
+            <artifactId>derby</artifactId>
+            <groupId>org.apache.derby</groupId>
+            <scope>test</scope>
+        </dependency>
+
+
+        <dependency>
+            <groupId>net.sf.hibernate4gwt</groupId>
+            <artifactId>hibernate4gwt</artifactId>
+            <version>${hibernate4gwt.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.groovy.maven</groupId>
+            <artifactId>gmaven-mojo</artifactId>
+            <version>${gmaven-mojo.version}</version>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>junit</artifactId>
+                    <groupId>junit</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.thoughtworks.xstream</groupId>
+            <artifactId>xstream</artifactId>
+
+            <version>${xstream.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.sf.beanlib</groupId>
+            <artifactId>beanlib</artifactId>
+            <version>${beanlib.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.thoughtworks.xstream</groupId>
+                    <artifactId>xstream</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>com.thoughtworks.xstream</groupId>
+            <artifactId>xstream</artifactId>
+            <version>${xstream.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.sf.beanlib</groupId>
+            <artifactId>beanlib-hibernate</artifactId>
+            <version>${beanlib-hibernate.version}</version>
+        </dependency>
+
+    </dependencies>
+
+</project>

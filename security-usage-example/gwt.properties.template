@@ -1,0 +1,4 @@
+java.executable=/usr/bin/java
+gwt.home.dir=/home/lukasz/instalki/gwt-linux-1.5.2/gwt-linux-1.5.2
+gwt.dev.jar=${gwt.home.dir}/gwt-dev-linux.jar
+app.url=http://localhost:8080/security/secure/index.jsp?log_level=DEBUG

@@ -1,0 +1,8 @@
+<module>
+    <source path="model/domain"/>
+    <source path="impl/gwt/client"/>
+    <source path="model/service">
+        <exclude name="**/*Impl*"/>
+    </source>
+    <source path="model/commons"/>
+</module>

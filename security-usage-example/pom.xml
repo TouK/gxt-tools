@@ -1,0 +1,264 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>security-usage-example</artifactId>
+    <packaging>war</packaging>
+    <name>Przykład wykorzystania wonderful security</name>
+    <version>1.4.1-SNAPSHOT</version>
+
+    <parent>
+        <groupId>pl.touk.gwt</groupId>
+        <artifactId>gxt-tools</artifactId>
+        <version>1.4.1-SNAPSHOT</version>
+    </parent>
+
+
+    <profiles>
+
+        <profile>
+            <id>hosted</id>
+            <activation>
+                <property>
+                    <name>hosted</name>
+                </property>
+            </activation>
+            <build>
+
+                <plugins>
+
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>properties-maven-plugin</artifactId>
+
+                        <executions>
+                            <execution>
+                                <phase>initialize</phase>
+                                <goals>
+                                    <goal>read-project-properties</goal>
+                                </goals>
+                                <configuration>
+                                    <files>
+                                        <file>${project.basedir}/gwt.properties</file>
+                                    </files>
+                                </configuration>
+                            </execution>
+                        </executions>
+
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>1.0.4-touk</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <executable>${java.executable}</executable>
+                            <arguments>
+                                <argument>-Xmx256m</argument>
+                                <argument>-Xms128m</argument>
+                                <argument>-Xdebug</argument>
+                                <argument>-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8004</argument>
+                                <argument>-classpath</argument>
+                                <classpath>
+                                    <path>
+                                        ${project.basedir}/src/main/java
+                                    </path>
+                                    <path>
+                                        ${project.basedir}/../wonderful-security-lib/src/main/java
+                                    </path>
+                                    <path>${gwt.home.dir}</path>
+                                    <path>${gwt.dev.jar}</path>
+                                </classpath>
+                                <argument>
+                                    com.google.gwt.dev.DevMode
+                                </argument>
+                                <argument>-noserver</argument>
+                                <argument>-gen</argument>
+                                <argument>
+                                    ${project.build.directory}/review
+                                </argument>
+                                <argument>-startupUrl</argument>
+                                <argument>${app.url}</argument>
+                                <!--<argument>-localWorkers</argument>-->
+                                <!--<argument>2</argument>-->
+                                <argument>-war</argument>
+                                <argument>${project.build.directory}/${project.build.finalName}</argument>
+                                <argument>-extra</argument>
+                                <argument>${project.build.directory}/extra</argument>
+                                <argument>pl.touk.example.gwt.ExampleModule</argument>
+                            </arguments>
+                        </configuration>
+                    </plugin>
+
+                </plugins>
+            </build>
+        </profile>
+
+
+        <profile>
+            <id>compileGwtWebMode</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>gwt-maven-plugin</artifactId>
+                        <version>${gwt-maven-plugin.version}</version>
+                        <configuration>
+                            <className>
+                                pl.touk.example.gwt.ExampleModule
+                            </className>
+                            <outputDirectory>
+                                ${project.build.directory}/www
+                            </outputDirectory>
+
+                            <style>PRETTY</style>
+                            <source>5</source>
+
+
+                            <jvmOptions>-Djava.awt.headless=true</jvmOptions>
+                            <fork>true</fork>
+                            <xmx>512m</xmx>
+                            <xms>512m</xms>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>compile</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <dependencies>
+
+
+                        </dependencies>
+                    </plugin>
+                    <plugin>
+
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <configuration>
+                            <warSourceDirectory>
+                                ${basedir}/src/main/webapp
+                            </warSourceDirectory>
+                            <webResources>
+                                <resource>
+                                    <directory>
+                                        ${project.build.directory}/www/pl.touk.example.gwt.ExampleModule
+                                    </directory>
+                                </resource>
+
+                            </webResources>
+                        </configuration>
+                    </plugin>
+
+
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>skipGwtCompilation</id>
+            <activation>
+                <property>
+                    <name>skipGwtCompilation</name>
+                </property>
+            </activation>
+        </profile>
+    </profiles>
+
+
+    <build>
+        <finalName>wonderful-security-example</finalName>
+
+        <resources>
+
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
+    </build>
+
+    <dependencies>
+
+        <!--<dependency>-->
+            <!--<groupId>pl.touk</groupId>-->
+            <!--<artifactId>gxt-mission-pack</artifactId>-->
+            <!--<version>1.0</version>-->
+            <!--<type>pom</type>-->
+            <!--<exclusions>-->
+                <!--<exclusion>-->
+                    <!--<groupId>org.springframework</groupId>-->
+                    <!--<artifactId>spring</artifactId>-->
+                <!--</exclusion>-->
+            <!--</exclusions>-->
+        <!--</dependency>-->
+
+        <!--<dependency>-->
+            <!--<groupId>pl.touk</groupId>-->
+            <!--<artifactId>mission-pack</artifactId>-->
+            <!--<version>1.1</version>-->
+            <!--<type>pom</type>-->
+        <!--</dependency>-->
+
+        <dependency>
+            <groupId>pl.touk.gwt</groupId>
+            <artifactId>gxt-tools-lib</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>xml-apis</groupId>
+            <artifactId>xml-apis</artifactId>
+            <version>1.0.b2</version>
+            <scope>provided</scope>
+        </dependency>
+
+          <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>${groovy-all.version}</version>
+        </dependency>
+
+        <!--<dependency>-->
+        <!--<groupId>net.sf.hibernate4gwt</groupId>-->
+        <!--<artifactId>hibernate4gwt</artifactId>-->
+        <!--<version>${hibernate4gwt.version}</version>-->
+        <!--</dependency>-->
+
+        <!--<dependency>-->
+            <!--<groupId>pl.touk</groupId>-->
+            <!--<artifactId>wonderful-security-lib</artifactId>-->
+            <!--<version>${project.version}</version>-->
+        <!--</dependency>-->
+
+        <!--<dependency>-->
+            <!--<groupId>org.codehaus.groovy</groupId>-->
+            <!--<artifactId>groovy-all</artifactId>-->
+            <!--<version>${groovy-all.version}</version>-->
+        <!--</dependency>-->
+
+        <!--<dependency>-->
+            <!--<groupId>org.codehaus.groovy.maven</groupId>-->
+            <!--<artifactId>gmaven-mojo</artifactId>-->
+            <!--<version>${gmaven-mojo.version}</version>-->
+        <!--</dependency>-->
+
+        <!--<dependency>-->
+            <!--<groupId>hsqldb</groupId>-->
+            <!--<artifactId>hsqldb</artifactId>-->
+            <!--<scope>compile</scope>-->
+        <!--</dependency>-->
+
+    </dependencies>
+
+</project>

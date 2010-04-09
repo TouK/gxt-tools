@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:lang="http://www.springframework.org/schema/lang"
+       xmlns:sec="http://www.springframework.org/schema/security"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/lang
+       http://www.springframework.org/schema/lang/spring-lang-3.0.xsd
+	   http://www.springframework.org/schema/security
+       http://www.springframework.org/schema/security/spring-security-3.0.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.0.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+
+    <context:annotation-config/>
+
+    <bean id="wsHibernateBeanManager"
+          class="pl.touk.wonderfulsecurity.hibernate4gwt.MergeDisabledHibernateBeanManager">
+        <property name="pojoStore" ref="wsPojoStore"/>
+        <!--<property name="classMapper" ref="classMapper"/>-->
+        <property name="sessionFactory" ref="${wsecurity.hibernateSessionFactory.name}"/>
+    </bean>
+
+    <bean id="wsPojoStore"
+          class="net.sf.hibernate4gwt.core.store.stateless.StatelessPojoStore"/>
+
+    <bean id="wsecurityManagerExporter" class="org.gwtwidgets.server.spring.hb4gwt.HB4GWTRPCServiceExporter">
+        <property name="beanManager" ref="wsHibernateBeanManager"/>
+        <property name="service" ref="wsecurityManager"/>
+        <!--<property name="usingProxyClassLoader" value="true"/>-->
+        <property name="serviceInterfaces" value="pl.touk.wonderfulsecurity.service.ISecurityManager"/>
+    </bean>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!---->
+    <!--<bean id="wsPojoStore" class="net.sf.gilead.core.store.stateless.StatelessProxyStore"/>-->
+
+    <!--<bean id="HibernateUtil" class="net.sf.gilead.core.hibernate.HibernateUtil">-->
+        <!--<property name="sessionFactory" ref="${wsecurity.hibernateSessionFactory.name}"/>-->
+    <!--</bean>-->
+
+    <!--<bean id="classMapper" class="net.sf.gilead.core.beanlib.mapper.ProxyClassMapper" >-->
+<!--<property name="persistenceUtil" ref="HibernateUtil"/>-->
+<!--</bean>-->
+
+    <!--<bean id="wsHibernateBeanManager" class="net.sf.gilead.core.PersistentBeanManager">-->
+        <!--<property name="classMapper" ref="classMapper"/>-->
+        <!--<property name="proxyStore" ref="wsPojoStore"/>-->
+        <!--<property name="persistenceUtil" ref="HibernateUtil"/>-->
+    <!--</bean>-->
+
+    <!--<bean id="wsecurityManagerExporter" class="org.gwtwidgets.server.spring.gilead.GileadRPCServiceExporter">-->
+        <!--<property name="sessionFactory" ref="${wsecurity.hibernateSessionFactory.name}"/>-->
+        <!--<property name="beanManager" ref="wsHibernateBeanManager"/>-->
+        <!--<property name="service" ref="wsecurityManager"/>-->
+        <!--&lt;!&ndash;<property name="usingProxyClassLoader" value="true"/>&ndash;&gt;-->
+        <!--<property name="serviceInterfaces" value="pl.touk.wonderfulsecurity.service.ISecurityManager"/>-->
+    <!--</bean>-->
+
+
+</beans>

@@ -1,0 +1,56 @@
+/*
+* Copyright (c) 2008 TouK.pl
+* Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+*/
+package pl.touk.wonderfulsecurity.gwt.client.ui;
+
+import com.extjs.gxt.ui.client.widget.button.Button;
+import com.extjs.gxt.ui.client.Style;
+import com.extjs.gxt.ui.client.event.ButtonEvent;
+import com.extjs.gxt.ui.client.event.SelectionListener;
+
+import java.util.ArrayList;
+
+/**
+ * @author Lukasz Kucharski - lkc@touk.pl
+ */
+public abstract class BaseAssignableGridOfEntities extends BaseGridOfEntities {
+// --------------------------- CONSTRUCTORS ---------------------------
+
+    protected Button saveButton;
+
+    public Button getSaveButton() {
+        return saveButton;
+    }
+
+    protected BaseAssignableGridOfEntities(ArrayList beansToDisplay) {
+        super(beansToDisplay);
+
+        this.setButtonAlign(Style.HorizontalAlignment.CENTER);
+        this.addButton(new Button("Reset", new SelectionListener<ButtonEvent>() {
+            public void componentSelected(ButtonEvent ce) {
+                getStore().rejectChanges();
+            }
+        }));
+
+        saveButton = new Button("Zapisz", new SelectionListener<ButtonEvent>() {
+            public void componentSelected(ButtonEvent ce) {
+                getStore().commitChanges();
+            }
+        });
+
+        this.addButton(saveButton);
+    }
+
+    
+}

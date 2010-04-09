@@ -1,0 +1,69 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <parent>
+        <artifactId>gxt-tools</artifactId>
+        <groupId>pl.touk.gwt</groupId>
+        <version>1.4.1-SNAPSHOT</version>
+    </parent>
+    
+    <modelVersion>4.0.0</modelVersion>
+    
+    <artifactId>security-ddl-gen</artifactId>
+    <packaging>jar</packaging>
+    <version>1.4.1-SNAPSHOT</version>
+    <name>Projekt generuje skrypty do zalozenia schematów DB dla wonderful-security</name>
+    <url>http://maven.apache.org</url>
+    
+    <dependencies>
+
+        <dependency>
+            <groupId>hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>${groovy-all.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.groovy.maven</groupId>
+            <artifactId>gmaven-mojo</artifactId>
+            <version>${gmaven-mojo.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>pl.touk.gwt</groupId>
+            <artifactId>gxt-tools-lib</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+    </dependencies>
+    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.1</version>
+                <executions>
+                    <execution>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <mainClass>pl.touk.wonderfulsecurity.hibernate.ddl.DDLGenerator</mainClass>
+                    <arguments>
+                        <commandlineArgs>${project.build.directory}/scripts/</commandlineArgs>
+                    </arguments>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

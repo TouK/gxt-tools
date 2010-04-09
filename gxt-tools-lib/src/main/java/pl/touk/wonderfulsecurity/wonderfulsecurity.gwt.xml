@@ -1,0 +1,51 @@
+<module>
+
+
+    <inherits name="com.google.gwt.user.User"/>
+    <inherits name="com.extjs.gxt.ui.GXT"/>
+    <!-- import tola library -->
+    <inherits name='pl.touk.tola.gwt.TolaModule'/>
+    <inherits name='com.google.gwt.http.HTTP'/>
+
+    <!--<inherits name='pl.touk.wonderfulsecurity.wonderfulsecurity'/>-->
+    <!--<inherits name='net.sf.hibernate4gwt.Hibernate4Gwt15'/>-->
+
+    <!--<inherits name='net.sf.hibernate4gwt.emul.java5.ejb3.Ejb3'/>-->
+
+    <!--<generate-with class="net.sf.hibernate4gwt.rebind.Gwt15ProxyGenerator">-->
+    <!--<when-type-assignable class="java.io.Serializable" />-->
+    <!--</generate-with>-->
+
+    <!--<inherits name="com.allen_sauer.gwt.log.gwt-log-OFF"/>-->
+
+    <!--<entry-point class="pl.touk.example.gwt.client.ExampleEntryPoint"/>-->
+
+    <!-- Loggers Enabled by default -->
+    <!--<set-property name="log_ConsoleLogger" value="ENABLED"/>-->
+    <!--<set-property name="log_DivLogger" value="DISABLED"/>-->
+    <!--<set-property name="log_FirebugLogger" value="ENABLED"/>-->
+    <!--<set-property name="log_GWTLogger" value="ENABLED"/>-->
+    <!--<set-property name="log_SystemLogger" value="ENABLED"/>-->
+
+    <!-- Loggers Disabled by default -->
+    <!--<set-property name="log_RemoteLogger" value="ENABLED"/>-->
+    <!--<set-property name="log_WindowLogger" value="DISABLED"/>-->
+
+    <!--<extend-property name="locale" values="pl"/>-->
+    <!--<extend-property name="log_level" values="DEBUG"/>-->
+
+    <source path="beans"/>
+    <source path="exceptions"/>
+    <source path="utils">
+        <exclude name="**/*PrepareDemoData*"/>
+    </source>
+    <source path="helpers"/>
+    <source path="gwt/client"/>
+    <source path="service">
+        <exclude name="**/*Impl*"/>
+    </source>
+    <source path="core">
+        <exclude name="**/*ServerSecurity*"/>
+    </source>
+    <stylesheet src ="css/wsec.css"/>
+</module>

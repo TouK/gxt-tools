@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  - Application context containing authentication, channel
+  - security and web URI beans.
+  -
+  - Only used by "filter" artifact.
+  -
+  - $Id: applicationContext-acegi-security.xml 1425 2006-04-28 06:43:50Z benalex $
+  -->
+
+<b:beans xmlns="http://www.springframework.org/schema/security"
+    xmlns:b="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd">
+
+	<global-method-security secured-annotations="enabled" jsr250-annotations="enabled" access-decision-manager-ref="accessDecisionManager"/>
+
+	<http auto-config="true" realm="Contacts Realm" access-decision-manager-ref="accessDecisionManager">
+		<intercept-url pattern="/" access="PERMISSION_NO11,ROLE_ANONYMOUS"/>
+		<intercept-url pattern="/index.jsp" access="PERMISSION_NO11"/>
+		<intercept-url pattern="/login.jsp*" access="PERMISSION_NO11,ROLE_ANONYMOUS"/>
+		<intercept-url pattern="/**" access="PERMISSION_NO11" />
+
+		<form-login login-page="/login.jsp" authentication-failure-url="/login.jsp?login_error=1" always-use-default-target="true"/>
+		<logout logout-success-url="/index.jsp"/>
+
+
+	</http>
+
+	<b:bean id="userDetailsService" class="pl.touk.wonderfulsecurity.springsecurity.DefaultUserDetailsService">
+		<b:property name="wsecUserDao" ref="wsecUserDao"/>
+	</b:bean>
+
+    <authentication-manager>
+        <authentication-provider user-service-ref="userDetailsService"/>
+    </authentication-manager>
+
+
+
+   <!-- Automatically receives AuthenticationEvent messages -->
+	<b:bean id="loggerListener" class="org.springframework.security.authentication.event.LoggerListener"/>
+
+   <!-- Filter used to switch the user context. Note: the switch and exit url must be secured
+        based on the role granted the ability to 'switch' to another user -->
+   <!-- In this example 'rod' has ROLE_SUPERVISOR that can switch to regular ROLE_USER(s) -->
+	<b:bean id="switchUserProcessingFilter" class="org.springframework.security.web.authentication.switchuser.SwitchUserFilter">
+		<!--<custom-filter position="SWITCH_USER_FILTER"/>-->
+        <b:property name="userDetailsService" ref="userDetailsService"/>
+		<b:property name="targetUrl" value="/secure/index.htm"/>
+	</b:bean>
+
+	<b:bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
+		<b:property name="decisionVoters">
+			<b:list>
+				<b:ref bean="roleVoter"/>
+		    <!-- TODO: Add Authenticated Voter -->
+			</b:list>
+		</b:property>
+	</b:bean>
+
+	<b:bean id="roleVoter" class="org.springframework.security.access.vote.RoleVoter">
+		<b:property name="rolePrefix" value=""/>
+	</b:bean>
+
+</b:beans>

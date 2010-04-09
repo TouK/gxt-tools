@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+  <xs:element name="print-request">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="id-form"/>
+        <xs:element ref="id-client"/>
+        <xs:element ref="id-session"/>
+        <xs:element ref="report-type"/>
+        <xs:element ref="timestamp"/>
+        <xs:element ref="instant-printout"/>
+        <xs:element ref="parameter-set"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="id-form" type="xs:string"/>
+  <xs:element name="id-client" type="xs:string"/>
+  <xs:element name="id-session" type="xs:string"/>
+  <xs:element name="report-type" type="xs:string"/>
+  <xs:element name="timestamp" type="xs:string"/>
+  <xs:element name="instant-printout" type="xs:boolean"/>
+  <xs:element name="parameter-set">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="parameter"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="parameter">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="id"/>
+        <xs:element ref="value"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="id" type="xs:string"/>
+  <xs:element name="value" type="xs:string"/>
+</xs:schema>
