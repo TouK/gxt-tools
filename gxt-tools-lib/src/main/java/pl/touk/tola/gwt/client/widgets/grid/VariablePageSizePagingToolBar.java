@@ -109,6 +109,7 @@ public class VariablePageSizePagingToolBar extends PagingToolBar {
             this.setStore(pageSizeStore);
             this.setEditable(false);
             this.setDisplayField("size");
+            this.setTriggerAction(TriggerAction.ALL);
 
         }
 

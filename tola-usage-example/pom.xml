@@ -3,7 +3,7 @@
     
     <artifactId>tola-usage-example</artifactId>
     <packaging>war</packaging>
-    <version>0.4.3-SNAPSHOT</version>
+   <version>1.4.1-SNAPSHOT</version>
     <name>Aplikacja prezentująca przykłady uzycia widgetów z toli</name>
 
     <parent>
@@ -64,7 +64,7 @@
                                         ${project.basedir}/src/main/java
                                     </path>
                                     <path>
-                                        ${project.basedir}/../tola-lib/src/main/java
+                                        ${project.basedir}/../gxt-tools-lib/src/main/java
                                     </path>
                                     <path>${gwt.home.dir}</path>
                                     <path>${gwt.dev.jar}</path>
@@ -137,7 +137,7 @@
                                         ${project.basedir}/src/main/java
                                     </path>
                                     <path>
-                                        ${project.basedir}/../tola-lib/src/main/java
+                                        ${project.basedir}/../gxt-tools-lib/src/main/java
                                     </path>
                                     <path>${gwt.home.dir}</path>
                                     <path>${gwt.dev.jar}</path>

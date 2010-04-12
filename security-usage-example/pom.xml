@@ -70,7 +70,7 @@
                                         ${project.basedir}/src/main/java
                                     </path>
                                     <path>
-                                        ${project.basedir}/../wonderful-security-lib/src/main/java
+                                        ${project.basedir}/../gxt-tools-lib/src/main/java
                                     </path>
                                     <path>${gwt.home.dir}</path>
                                     <path>${gwt.dev.jar}</path>
@@ -189,7 +189,6 @@
         <dependency>
             <groupId>pl.touk.gwt</groupId>
             <artifactId>gxt-tools-lib</artifactId>
-            <version>${project.version}</version>
         </dependency>
         
         <dependency>

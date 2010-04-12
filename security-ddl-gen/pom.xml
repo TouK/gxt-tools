@@ -38,7 +38,6 @@
         <dependency>
             <groupId>pl.touk.gwt</groupId>
             <artifactId>gxt-tools-lib</artifactId>
-            <version>${project.version}</version>
         </dependency>
 
     </dependencies>

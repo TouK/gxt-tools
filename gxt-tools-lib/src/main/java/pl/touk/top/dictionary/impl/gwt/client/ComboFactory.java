@@ -38,11 +38,11 @@ public final class ComboFactory {
     public static ComboBox buildStaticCombo(String dictionaryCategory) {
 
         ComboBox combo = new ComboBox();
-        combo.setDisplayField("value");
-        combo.setStore(prepareStore(dictionaryCategory));
+        setUpCombo(dictionaryCategory, combo);
         return combo;
 
     }
+
 
     /**
      * Builds static combo box with clear trigger.
@@ -52,8 +52,7 @@ public final class ComboFactory {
     public static ComboBoxWithClear buildStaticComboWithClear(String dictionaryCategory) {
 
         ComboBoxWithClear combo = new ComboBoxWithClear();
-        combo.setDisplayField("value");
-        combo.setStore(prepareStore(dictionaryCategory));
+        setUpCombo(dictionaryCategory, combo);
         return combo;
     }
 
@@ -97,6 +96,7 @@ public final class ComboFactory {
         combo.setDisplayField("value");
         combo.setEditable(false);
         combo.setStore(prepareStore(dictionaryCategory));
+        combo.setTriggerAction(ComboBox.TriggerAction.ALL);
         return combo;
     }
 
@@ -130,4 +130,12 @@ public final class ComboFactory {
                     "before initializing ClientDictionary???");
         }
     }
+
+    private static void setUpCombo(String dictionaryCategory, ComboBox combo) {
+        combo.setDisplayField("value");
+        combo.setStore(prepareStore(dictionaryCategory));
+        combo.setEditable(false);
+        combo.setTriggerAction(ComboBox.TriggerAction.ALL);
+    }
+    
 }

@@ -74,11 +74,6 @@ public class DictionaryBasedRemoteFilter<D extends ModelData> extends ComboBoxWi
     // --------------------- Interface Listener ---------------------
 
     public void handleEvent(BaseEvent be) {
-        if (be.getType() == Events.TwinTriggerClick) {
-            this.clearSelections();
-            doFilter();
-        }
-
         if (be.getType() == Events.Select) {
             doFilter();
         }
@@ -86,6 +81,7 @@ public class DictionaryBasedRemoteFilter<D extends ModelData> extends ComboBoxWi
         if (be.getType() == Loader.BeforeLoad) {
             LoadEvent loadEvent = (LoadEvent) be;
             BasePagingLoadConfig config = (BasePagingLoadConfig) loadEvent.getConfig();
+            config.setAllowNestedValues(false);
 
             if ((this.getValue() == null) || this.getValue().toString().trim().equals("")) {
                 config.remove(filteredPropertyName);
@@ -122,11 +118,9 @@ public class DictionaryBasedRemoteFilter<D extends ModelData> extends ComboBoxWi
         }
     }
 
-    // -------------------------- OTHER METHODS --------------------------
-
     @Override
     protected void onTwinTriggerClick(ComponentEvent ce) {
-        fireEvent(Events.TwinTriggerClick, ce);
+        super.onTwinTriggerClick(ce);
+        doFilter();
     }
-
 }
