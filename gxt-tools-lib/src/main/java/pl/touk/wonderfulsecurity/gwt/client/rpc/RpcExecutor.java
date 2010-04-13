@@ -14,6 +14,7 @@
  */
 package pl.touk.wonderfulsecurity.gwt.client.rpc;
 
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
@@ -24,6 +25,8 @@ import com.google.gwt.core.client.GWT;
 import java.util.AbstractQueue;
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import com.google.gwt.user.client.Window;
 import pl.touk.wonderfulsecurity.gwt.client.ui.ServerCommunicationInfo;
 
 /**
@@ -36,14 +39,17 @@ public class RpcExecutor {
     private static final String message = "Proszę czekać...";
     private static IRpcErrorHandler errorHandler;
 
-    public static void execute(RequestBuilder rb) {
+    public static void execute(RequestBuilder rb, final boolean displayCommunicationStatus) {
         final RequestCallback originalCallback = rb.getCallback();
 
         /**
          * Using default message
          */
-        ServerCommunicationInfo.show(message);
-        messageQueue.add(message);
+        if (displayCommunicationStatus) {
+
+            showServerCommunication(message);
+            messageQueue.add(message);
+        }
 
         /**
          * Replacing callback, to be able to get login page location from HTTP header
@@ -55,12 +61,21 @@ public class RpcExecutor {
                 if (header != null && header.length() > 0) {
                     Redirect.redirect(header);
                 }
-                refreshUserMessage();
+
+                if (displayCommunicationStatus) {
+                    refreshUserMessage();
+                }
+                
                 originalCallback.onResponseReceived(request, response);
             }
 
             public void onError(Request request, Throwable exception) {
-                refreshUserMessage();
+
+                if (displayCommunicationStatus) {
+
+                    refreshUserMessage();
+                }
+                
                 if (errorHandler != null) {
                     errorHandler.handleError(request, exception);
                 }
@@ -76,6 +91,36 @@ public class RpcExecutor {
             }
         }
 
+    }
+
+
+    protected static void showServerCommunication(final String message) {
+        changeServerCommunicationStatusAsync(message, true);
+    }
+
+    protected static void hideServerCommunication() {
+        changeServerCommunicationStatusAsync(null, false);
+    }
+
+    private static void changeServerCommunicationStatusAsync(final String message, final boolean show) {
+        GWT.runAsync(new RunAsyncCallback() {
+            public void onFailure(Throwable throwable) {
+                Window.alert("Nie można załadować modułu runasync dla CommunitactionInfo");
+            }
+
+            public void onSuccess() {
+                if (show) {
+                    ServerCommunicationInfo.show(message);
+                } else {
+                    ServerCommunicationInfo.hide();
+                }
+            }
+        });
+    }
+
+
+    public static void execute(RequestBuilder rb) {
+        execute(rb,true);
     }
 
     /**
@@ -95,9 +140,9 @@ public class RpcExecutor {
         String message = (String) messageQueue.poll();
 
         if (!messageQueue.isEmpty()) {
-            ServerCommunicationInfo.show(message);
+            showServerCommunication(message);
         } else {
-            ServerCommunicationInfo.hide();
+            hideServerCommunication();
         }
     }
 }

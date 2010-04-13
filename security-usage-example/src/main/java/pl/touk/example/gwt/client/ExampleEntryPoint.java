@@ -29,6 +29,9 @@ import com.extjs.gxt.ui.client.widget.layout.BorderLayoutData;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
@@ -38,7 +41,9 @@ import pl.touk.example.gwt.client.rpc.SecurityTestServiceAsync;
 import pl.touk.wonderfulsecurity.beans.WsecPermission;
 import pl.touk.wonderfulsecurity.beans.WsecUser;
 import pl.touk.wonderfulsecurity.core.ClientSecurity;
+
 import static pl.touk.wonderfulsecurity.gwt.client.WsEvents.INIT_SECURITY_CONSOLE;
+
 import pl.touk.wonderfulsecurity.gwt.client.rpc.ISecurityManagerRpcAsync;
 import pl.touk.wonderfulsecurity.gwt.client.ui.SecurityManagerController;
 import pl.touk.top.dictionary.impl.gwt.client.ClientDictionary;
@@ -51,7 +56,7 @@ public class ExampleEntryPoint implements EntryPoint {
 // ------------------------------ FIELDS ------------------------------
 
     private SecurityTestServiceAsync testService;
-	private ISecurityManagerRpcAsync securityManagerRpcAsync;
+    private ISecurityManagerRpcAsync securityManagerRpcAsync;
 
 // ------------------------ INTERFACE METHODS ------------------------
 
@@ -83,13 +88,13 @@ public class ExampleEntryPoint implements EntryPoint {
 
             public void onSuccess(Object result) {
                 // after its done you can start setting up rest of your application
-                initializeExample();
-                
+                initializeExampleAsync();
+
             }
 
-            
+
             public void onFailure(Throwable caught) {
-                GWT.log("",caught);
+                GWT.log("", caught);
                 Window.alert("Cannot initialize dictionary framework");
             }
         });
@@ -100,7 +105,30 @@ public class ExampleEntryPoint implements EntryPoint {
 
 // -------------------------- OTHER METHODS --------------------------
 
+    protected void initializeExampleAsync() {
+
+        RootPanel.get().add(new com.google.gwt.user.client.ui.Button("Nacisnij aby pobrac dodatkowy moduł za pomocą runasync", new ClickHandler() {
+            public void onClick(ClickEvent clickEvent) {
+                GWT.runAsync(new RunAsyncCallback() {
+                    public void onFailure(Throwable throwable) {
+                        Window.alert("FAIL RUN ASYNC");
+                    }
+
+                    public void onSuccess() {
+
+                        initializeExample();
+                    }
+                });
+
+            }
+        }));
+
+
+    }
+
     protected void initializeExample() {
+
+
         // you can do this only after asynchronous initialize method of ClientSecurity completed
 
         // this is how you fetch logged in user

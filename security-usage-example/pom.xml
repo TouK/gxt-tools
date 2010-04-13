@@ -120,11 +120,12 @@
                                 ${project.build.directory}/www
                             </outputDirectory>
 
-                            <style>PRETTY</style>
+                            <style>OBF</style>
                             <source>5</source>
+                            <additionalArgs>-XsoycDetailed -extra ${project.build.directory}</additionalArgs>
 
 
-                            <jvmOptions>-Djava.awt.headless=true</jvmOptions>
+                            <jvmOptions>-Djava.awt.headless=true </jvmOptions>
                             <fork>true</fork>
                             <xmx>512m</xmx>
                             <xms>512m</xms>
