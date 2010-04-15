@@ -32,14 +32,14 @@
     </bean>
 
 
-    <bean id="testSecuredService" class="pl.touk.tola.example.gwt.server.SecurityTestServiceImpl">
+    <bean id="testSecuredService" class="pl.touk.example.gwt.server.SecurityTestServiceImpl">
         
     </bean>
 
     <bean id="testServiceExporter" class="org.gwtwidgets.server.spring.GWTRPCServiceExporter">
         <!--<property name="throwUndeclaredExceptionToServletContainer" value="true"/>-->
         <property name="service" ref="testSecuredService"/>
-        <property name="serviceInterfaces" value="pl.touk.tola.example.gwt.client.rpc.SecurityTestService"/>
+        <property name="serviceInterfaces" value="pl.touk.example.gwt.client.rpc.SecurityTestService"/>
     </bean>
 
     <bean id="rpcExporterDictionaryService" class="org.gwtwidgets.server.spring.GWTRPCServiceExporter">

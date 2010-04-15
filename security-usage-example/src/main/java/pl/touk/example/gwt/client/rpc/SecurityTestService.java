@@ -16,8 +16,9 @@
 
 
 
-package pl.touk.tola.example.gwt.client.rpc;
+package pl.touk.example.gwt.client.rpc;
 
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.google.gwt.user.client.rpc.RemoteService;
 
 /**

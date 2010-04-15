@@ -12,13 +12,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package pl.touk.tola.example.gwt.server;
+package pl.touk.example.gwt.server;
 
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.security.access.annotation.Secured;
-import pl.touk.tola.example.gwt.client.rpc.SecurityTestService;
+import pl.touk.example.gwt.client.rpc.SecurityTestService;
 import pl.touk.wonderfulsecurity.core.ServerSecurity;
 
 /**

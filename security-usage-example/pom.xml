@@ -91,7 +91,7 @@
                                 <argument>${project.build.directory}/${project.build.finalName}</argument>
                                 <argument>-extra</argument>
                                 <argument>${project.build.directory}/extra</argument>
-                                <argument>pl.touk.tola.example.gwt.ExampleModule</argument>
+                                <argument>pl.touk.example.gwt.ExampleModule</argument>
                             </arguments>
                         </configuration>
                     </plugin>
@@ -114,7 +114,7 @@
                         <artifactId>gwt-maven-plugin</artifactId>
                         <configuration>
                             <className>
-                                pl.touk.tola.example.gwt.ExampleModule
+                                pl.touk.example.gwt.ExampleModule
                             </className>
                             <outputDirectory>
                                 ${project.build.directory}/www
@@ -149,7 +149,7 @@
                             <webResources>
                                 <resource>
                                     <directory>
-                                        ${project.build.directory}/www/pl.touk.tola.example.gwt.ExampleModule
+                                        ${project.build.directory}/www/pl.touk.example.gwt.ExampleModule
                                     </directory>
                                 </resource>
 

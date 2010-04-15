@@ -5,5 +5,6 @@
     <inherits name="pl.touk.wonderfulsecurity.wonderfulsecurity"/>
     <inherits name='pl.touk.top.dictionary.DictionaryModel'/>
     <entry-point class="pl.touk.top.dictionary.webapp.client.DictionaryDemoEntryPoint"/>
+    <set-property name="user.agent" value="gecko" />
 
 </module>

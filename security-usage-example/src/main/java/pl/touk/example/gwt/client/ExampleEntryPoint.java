@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package pl.touk.tola.example.gwt.client;
+package pl.touk.example.gwt.client;
 
 import com.extjs.gxt.ui.client.Registry;
 import com.extjs.gxt.ui.client.Style;
@@ -36,8 +36,8 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.user.client.ui.RootPanel;
-import pl.touk.tola.example.gwt.client.rpc.SecurityTestService;
-import pl.touk.tola.example.gwt.client.rpc.SecurityTestServiceAsync;
+import pl.touk.example.gwt.client.rpc.SecurityTestService;
+import pl.touk.example.gwt.client.rpc.SecurityTestServiceAsync;
 import pl.touk.wonderfulsecurity.beans.WsecPermission;
 import pl.touk.wonderfulsecurity.beans.WsecUser;
 import pl.touk.wonderfulsecurity.core.ClientSecurity;
