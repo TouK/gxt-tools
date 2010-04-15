@@ -12,16 +12,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package pl.touk.example.gwt.client;
+package pl.touk.tola.example.gwt.client;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.user.client.Window;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.http.client.RequestBuilder;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.extjs.gxt.ui.client.widget.Viewport;
 import com.extjs.gxt.ui.client.widget.TabPanel;
 import com.extjs.gxt.ui.client.widget.TabItem;
-import com.extjs.gxt.ui.client.widget.layout.BorderLayout;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
+import pl.touk.rapidgxt.gwt.client.rpc.GenericDataAccessServiceRpc;
+import pl.touk.rapidgxt.gwt.client.rpc.GenericDataAccessServiceRpcAsync;
+import pl.touk.wonderfulsecurity.gwt.client.rpc.RpcExecutor;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 
 /**
@@ -30,7 +38,7 @@ import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 public class ExampleEntryPoint implements EntryPoint {
 // ------------------------------ FIELDS ------------------------------
 
-//    private SecurityTestServiceAsync testService;
+    private GenericDataAccessServiceRpcAsync genericService;
 //	private ISecurityManagerRpcAsync securityManagerRpcAsync;
 
 // ------------------------ INTERFACE METHODS ------------------------
@@ -39,15 +47,36 @@ public class ExampleEntryPoint implements EntryPoint {
 // --------------------- Interface EntryPoint ---------------------
 
     public void onModuleLoad() {
-       
-                initializeExample();
+
+        setupRapidGxtConfiguration();
+
+        initializeExample();
+
+        RequestBuilder rb = genericService.fetchPagedList(new HashMap(), 1, 5, null, null, "pl.touk.wonderfulsecurity.beans.WsecUser", new AsyncCallback<ArrayList>() {
+            public void onFailure(Throwable throwable) {
+                GWT.log("Fail");
+            }
+
+            public void onSuccess(ArrayList arrayList) {
+                GWT.log("GUT");
+            }
+        });
+
+        RpcExecutor.execute(rb);
+    }
+
+    private void setupRapidGxtConfiguration() {
+        genericService = (GenericDataAccessServiceRpcAsync) GWT.create(GenericDataAccessServiceRpc.class);
+        ServiceDefTarget securityManagerEndpoint = (ServiceDefTarget) genericService;
+        securityManagerEndpoint.setServiceEntryPoint("secure/rpc/wsecurityManager.do");
+
     }
 
 // -------------------------- OTHER METHODS --------------------------
 
     protected void initializeExample() {
 
-        
+
         Viewport viewport = new Viewport();
         viewport.setLayout(new FitLayout());
         viewport.setStyleAttribute("background", "none");

@@ -3,14 +3,14 @@
     <parent>
         <artifactId>gxt-tools</artifactId>
         <groupId>pl.touk.gwt</groupId>
-        <version>1.4.1-SNAPSHOT</version>
+        <version>3.0.0-SNAPSHOT</version>
     </parent>
     
     <modelVersion>4.0.0</modelVersion>
     
     <artifactId>security-ddl-gen</artifactId>
     <packaging>jar</packaging>
-    <version>1.4.1-SNAPSHOT</version>
+    <version>3.0.0-SNAPSHOT</version>
     <name>Projekt generuje skrypty do zalozenia schematów DB dla wonderful-security</name>
     <url>http://maven.apache.org</url>
     

@@ -75,7 +75,7 @@ public interface ISecurityManagerRpcAsync {
 
 	public RequestBuilder fetchPagedListWithOverallCount(String caller, Map<String, Object> queryParameters, Integer offset, Integer howMany,
 			String sortColumn, Boolean desc, String clazz,
-			AsyncCallback<PagedQueryResult<ArrayList<? extends Serializable>>> callback);
+			AsyncCallback<PagedQueryResult> callback);
 
 	public RequestBuilder saveUser(String caller, WsecUser user, AsyncCallback<WsecUser> callback);
 

@@ -106,7 +106,7 @@ public interface WsecBaseDao {
      * @return ArrayList of objects or empty list for non matching criteria
      * @return
      */
-    public <E> ArrayList<E> fetchList(final Map<String, ?> queryParameters, final String sortColumn, final Boolean desc, final Class<E> clazz);
+    public  ArrayList fetchList(final Map<String, ?> queryParameters, final String sortColumn, final Boolean desc, final Class clazz);
     /**
      * Fetch paged list of entities matching criteria expressed via map of parameters
      *
@@ -137,7 +137,7 @@ public interface WsecBaseDao {
      * @param clazz           which domain objects should be fetched
      * @return Object containing page of queried object plus overall count of objects matching given criteria
      */
-    public <E extends Serializable> PagedQueryResult<E> fetchPagedListWithOverallCount(Map<String, ?> queryParameters, Integer offset, Integer howMany, String sortColumn, Boolean desc, Class<E> clazz);
+    public  PagedQueryResult fetchPagedListWithOverallCount(Map<String, ?> queryParameters, Integer offset, Integer howMany, String sortColumn, Boolean desc, Class clazz);
 
     /**
      * Save transient object or update detached object

@@ -194,7 +194,7 @@ public interface ISecurityManager {
 	 *
 	 * @param clazz string literal class name (full with package prefix)
 	 */
-	public PagedQueryResult<ArrayList<? extends Serializable>> fetchPagedListWithOverallCount(
+	public PagedQueryResult fetchPagedListWithOverallCount(
 			String caller, Map<String, ? extends Serializable> queryParameters, Integer offset,
 			Integer howMany, String sortColumn, Boolean desc, String clazz);
 

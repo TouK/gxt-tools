@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:lang="http://www.springframework.org/schema/lang"
+       xmlns:sec="http://www.springframework.org/schema/security"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/lang
+       http://www.springframework.org/schema/lang/spring-lang-3.0.xsd
+	   http://www.springframework.org/schema/security
+       http://www.springframework.org/schema/security/spring-security-3.0.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.0.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+
+
+    <context:annotation-config/>
+
+
+    <bean id="demoData" class="pl.touk.wonderfulsecurity.utils.PrepareDemoData" init-method="initialize">
+        <property name="mode" value="1"/>
+    </bean>
+
+    <bean id="startupConfigurer" class="pl.touk.wonderfulsecurity.utils.StartupConfigurer">
+        <property name="wsecUserDao" ref="wsecUserDao"/>
+        <property name="wsecPermissionDao" ref="wsecPermissionDao"/>
+        <property name="transactionTemplate" ref="wsHibernateTransactionTemplate"/>
+        <property name="rootLogin" value="czesio"/>
+    </bean>
+
+
+    <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="mappings">
+            <map>
+                <entry key="/secure/rpc/wsecurityManager.do" value-ref="wsecurityManagerExporter"/>
+                <entry key="/secure/rpc/genericDataService.do" value-ref="genericDataServiceExporter"/>
+            </map>
+        </property>
+    </bean>
+
+
+    <bean id="wsDataSource" class="org.apache.derby.jdbc.EmbeddedConnectionPoolDataSource" lazy-init="true">
+       <property name="databaseName" value="tolaUsageExampleDerbyDatabase" />
+	   <property name="createDatabase" value="create" />
+    </bean>
+
+
+
+    <bean id="wsHibernateBeanManager"
+          class="pl.touk.wonderfulsecurity.hibernate4gwt.MergeDisabledHibernateBeanManager">
+        <property name="pojoStore" ref="wsPojoStore"/>
+        <property name="sessionFactory" ref="wsHibernateSessionFactory"/>
+    </bean>
+
+    <bean id="wsPojoStore"
+          class="net.sf.hibernate4gwt.core.store.stateless.StatelessPojoStore"/>
+
+    <bean id="wsecurityManagerExporter" class="org.gwtwidgets.server.spring.hb4gwt.HB4GWTRPCServiceExporter">
+        <property name="beanManager" ref="wsHibernateBeanManager"/>
+        <property name="service" ref="wsecurityManager"/>
+        <property name="serviceInterfaces" value="pl.touk.wonderfulsecurity.service.ISecurityManager"/>
+    </bean>
+
+
+    <bean id="genericDataAccessService" class="pl.touk.rapidgxt.dataaccess.GenericDataAccessServiceImpl">
+        <property name="genericDao" ref="genericDao"/>
+    </bean>
+
+    <bean id="genericDataServiceExporter" class="org.gwtwidgets.server.spring.hb4gwt.HB4GWTRPCServiceExporter">
+        <property name="beanManager" ref="wsHibernateBeanManager"/>
+        <property name="service" ref="genericDataAccessService"/>
+        <property name="serviceInterfaces" value="pl.touk.rapidgxt.dataaccess.GenericDataAccessService"/>
+    </bean>
+
+
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+
+    <bean id="wsHibernateTransactionTemplate" class="org.springframework.transaction.support.TransactionTemplate">
+        <property name="transactionManager" ref="transactionManager"/>
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory" ref="wsHibernateSessionFactory"/>
+    </bean>
+
+    <bean id="wsHibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+        <property name="sessionFactory" ref="wsHibernateSessionFactory"/>
+    </bean>
+
+    <bean id="wsecUserDao" class="pl.touk.wonderfulsecurity.dao.WsecUserDaoImpl">
+        <property name="hibernateTemplate" ref="wsHibernateTemplate"/>
+    </bean>
+
+    <bean id="wsecRoleDao" class="pl.touk.wonderfulsecurity.dao.WsecRoleDaoImpl">
+        <property name="hibernateTemplate" ref="wsHibernateTemplate"/>
+    </bean>
+
+    <bean id="wsecGroupDao" class="pl.touk.wonderfulsecurity.dao.WsecGroupDaoImpl">
+        <property name="hibernateTemplate" ref="wsHibernateTemplate"/>
+    </bean>
+
+    <bean id="genericDao" class="pl.touk.wonderfulsecurity.dao.WsecGroupDaoImpl">
+        <property name="hibernateTemplate" ref="wsHibernateTemplate"/>
+    </bean>
+
+
+
+
+    <bean id="wsecPermissionDao" class="pl.touk.wonderfulsecurity.dao.WsecPermissionDaoImpl">
+        <property name="hibernateTemplate" ref="wsHibernateTemplate"/>
+    </bean>
+
+
+    <bean id="wsecurityManager" class="pl.touk.wonderfulsecurity.service.SecurityManagerImpl">
+        <property name="baseDao" ref="wsecUserDao"/>
+        <property name="roleDao" ref="wsecRoleDao"/>
+    </bean>
+
+
+    <bean id="wsHibernateSessionFactory"
+          class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+        <property name="dataSource" ref="wsDataSource"/>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.DerbyDialect</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.format_sql">true</prop>
+                <prop key="hibernate.hbm2ddl.auto">create</prop>
+            </props>
+        </property>
+        <property name="annotatedClasses">
+            <list>
+                <value>pl.touk.wonderfulsecurity.beans.WsecUser</value>
+                <value>pl.touk.wonderfulsecurity.beans.WsecGroup</value>
+                <value>pl.touk.wonderfulsecurity.beans.WsecRole</value>
+                <value>pl.touk.wonderfulsecurity.beans.WsecPermission</value>
+            </list>
+        </property>
+    </bean>
+
+
+</beans>

@@ -2,7 +2,7 @@
 * Copyright (c) 2007 TouK
 * All rights reserved
 */
-package pl.touk.example.gwt.client;
+package pl.touk.tola.example.gwt.client;
 
 import com.extjs.gxt.ui.client.Style;
 import com.extjs.gxt.ui.client.event.ButtonEvent;

@@ -27,7 +27,7 @@ import java.io.Serializable;
  *
  * @author Lukasz Kucharski - lkc@touk.pl
  */
-public class PagedQueryResult<T extends Serializable> extends HashMap<String, Serializable> implements Serializable {
+public class PagedQueryResult extends HashMap implements Serializable {
 // ------------------------------ FIELDS ------------------------------
 
     public static final String RESULT_KEY = "RESULT_";
@@ -39,15 +39,15 @@ public class PagedQueryResult<T extends Serializable> extends HashMap<String, Se
     public PagedQueryResult() {
     }
 
-    public PagedQueryResult(T result, int overallCount) {
+    public PagedQueryResult(Serializable result, int overallCount) {
         this.put(RESULT_KEY, result);
         this.put(OVERALL_COUNT_KEY, overallCount);
     }
 
 // --------------------- GETTER / SETTER METHODS ---------------------
 
-    public T getResult() {
-        return (T)this.get(RESULT_KEY);
+    public Serializable getResult() {
+        return (Serializable)this.get(RESULT_KEY);
     }
 
     public <T extends Serializable> void setResult(T result) {

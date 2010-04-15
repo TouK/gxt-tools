@@ -9,7 +9,7 @@
     <inherits name='pl.touk.tola.gwt.TolaModule'/>
     <inherits name='pl.touk.wonderfulsecurity.wonderfulsecurity'/>
     <inherits name='pl.touk.top.dictionary.DictionaryModel'/>
-    <entry-point class="pl.touk.example.gwt.client.ExampleEntryPoint"/>
+    <entry-point class="pl.touk.tola.example.gwt.client.ExampleEntryPoint"/>
     <!--<set-property name="user.agent" value="gecko" />-->
 
     

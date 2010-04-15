@@ -18,7 +18,7 @@
 
     <!--<inherits name="com.allen_sauer.gwt.log.gwt-log-OFF"/>-->
 
-    <!--<entry-point class="pl.touk.example.gwt.client.ExampleEntryPoint"/>-->
+    <!--<entry-point class="pl.touk.tola.example.gwt.client.ExampleEntryPoint"/>-->
 
     <!-- Loggers Enabled by default -->
     <!--<set-property name="log_ConsoleLogger" value="ENABLED"/>-->

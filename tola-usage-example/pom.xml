@@ -3,90 +3,18 @@
     
     <artifactId>tola-usage-example</artifactId>
     <packaging>war</packaging>
-   <version>1.4.1-SNAPSHOT</version>
+   <version>3.0.0-SNAPSHOT</version>
     <name>Aplikacja prezentująca przykłady uzycia widgetów z toli</name>
 
     <parent>
         <artifactId>gxt-tools</artifactId>
         <groupId>pl.touk.gwt</groupId>
-        <version>1.4.1-SNAPSHOT</version>
+        <version>3.0.0-SNAPSHOT</version>
     </parent>
     
     <url>http://maven.apache.org</url>
 
     <profiles>
-        <profile>
-            <id>machosted</id>
-            <activation>
-                <property>
-                    <name>machosted</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>properties-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <phase>initialize</phase>
-                                <goals>
-                                    <goal>read-project-properties</goal>
-                                </goals>
-                                <configuration>
-                                    <files>
-                                        <file>gwt.properties</file>
-                                    </files>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <version>1.0.4-touk</version>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <executable>${java.executable}</executable>
-                            <arguments>
-                                <argument>-XstartOnFirstThread</argument>
-                                <argument>-Xmx1024m</argument>
-                                <argument>-Xms1024m</argument>
-                                <argument>-classpath</argument>
-                                <classpath>
-                                    <path>
-                                        ${project.basedir}/src/main/java
-                                    </path>
-                                    <path>
-                                        ${project.basedir}/../gxt-tools-lib/src/main/java
-                                    </path>
-                                    <path>${gwt.home.dir}</path>
-                                    <path>${gwt.dev.jar}</path>
-                                    <path>
-                                        ${project.basedir}/src/main/java
-                                    </path>
-                                </classpath>
-                                <argument>
-                                    com.google.gwt.dev.GWTShell
-                                </argument>
-                                <argument>-out</argument>
-                                <argument>
-                                    ${project.build.directory}/www
-                                </argument>
-                                <argument>-noserver</argument>
-                                <argument>${app.url}</argument>
-                            </arguments>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
         <profile>
             <id>hosted</id>
             <activation>
@@ -172,7 +100,7 @@
                         <artifactId>gwt-maven-plugin</artifactId>
                         <configuration>
                             <className>
-                                pl.touk.example.gwt.ExampleModule
+                                pl.touk.tola.example.gwt.ExampleModule
                             </className>
                             <outputDirectory>
                                 ${project.build.directory}/www
@@ -202,7 +130,7 @@
                             <webResources>
                                 <resource>
                                     <directory>
-                                        ${project.build.directory}/www/pl.touk.example.gwt.ExampleModule
+                                        ${project.build.directory}/www/pl.touk.tola.example.gwt.ExampleModule
                                     </directory>
                                 </resource>
                             </webResources>
@@ -229,11 +157,24 @@
         </resources>
     </build>
     
-    <dependencies>        
+    <dependencies>
+
+        <dependency>
+            <artifactId>derby</artifactId>
+            <groupId>org.apache.derby</groupId>
+        </dependency>
+        
         <dependency>
             <groupId>pl.touk.gwt</groupId>
             <artifactId>gxt-tools-lib</artifactId>
         </dependency>
+
+        <dependency>
+          <groupId>org.codehaus.groovy</groupId>
+          <artifactId>groovy-all</artifactId>
+          <version>${groovy-all.version}</version>
+      </dependency>
+        
     </dependencies>
     
 </project>

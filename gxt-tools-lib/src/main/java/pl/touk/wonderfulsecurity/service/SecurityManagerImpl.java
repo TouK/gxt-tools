@@ -402,7 +402,7 @@ public class SecurityManagerImpl implements ISecurityManager{
 	}
 
 
-	public PagedQueryResult<ArrayList<? extends Serializable>> fetchPagedListWithOverallCount(
+	public PagedQueryResult fetchPagedListWithOverallCount(
 			String caller, Map<String, ? extends Serializable> queryParameters, Integer offset,
 			Integer howMany, String sortColumn, Boolean desc, String clazz) {
 		Class oclazz = loadClassForName(clazz);

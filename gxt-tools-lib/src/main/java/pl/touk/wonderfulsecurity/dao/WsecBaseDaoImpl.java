@@ -70,9 +70,9 @@ public class WsecBaseDaoImpl extends HibernateDaoSupport implements WsecBaseDao 
         return ((Number) o).intValue();
     }
     
-    public <E> ArrayList<E> fetchList(final Map<String, ?> queryParameters, final String sortColumn, final Boolean desc, final Class<E> clazz) {
+    public  ArrayList fetchList(final Map<String, ?> queryParameters, final String sortColumn, final Boolean desc, final Class clazz) {
         {
-            ArrayList<E> list = (ArrayList<E>) getHibernateTemplate().execute(new HibernateCallback() {
+            ArrayList list = (ArrayList) getHibernateTemplate().execute(new HibernateCallback() {
 
                 public Object doInHibernate(Session session) throws HibernateException, SQLException {
                     DetachedCriteria detachedCriteria = buildCriteriaFromMapOfParameters(queryParameters, clazz);
@@ -105,8 +105,8 @@ public class WsecBaseDaoImpl extends HibernateDaoSupport implements WsecBaseDao 
         return list != null ? list : new ArrayList();
     }
 
-    public <E extends Serializable> PagedQueryResult<E> fetchPagedListWithOverallCount(Map<String, ?> queryParameters, Integer offset,
-                                                                        Integer howMany, String sortColumn, Boolean desc, Class<E> clazz) {
+    public PagedQueryResult fetchPagedListWithOverallCount(Map<String, ?> queryParameters, Integer offset,
+                                                                        Integer howMany, String sortColumn, Boolean desc, Class clazz) {
         ArrayList list = fetchPagedList(queryParameters, offset, howMany, sortColumn, desc, clazz);
         logger.info("Fatched page");
         int overallCount = fetchCount(queryParameters, clazz);
