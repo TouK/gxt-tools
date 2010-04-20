@@ -30,7 +30,7 @@ import com.google.gwt.user.client.*;
  */
 public class DictionaryBasedRemoteFilter<D extends ModelData> extends ComboBoxWithClear<D> implements Listener {
 
-    public static enum TargetFieldType{INTEGER, LONG}
+    public static enum TargetFieldType{INTEGER, LONG, STRING}
     // ------------------------------ FIELDS ------------------------------
     protected PagingLoader loader;
     protected PagingToolBar pgToolBar;
@@ -106,7 +106,7 @@ public class DictionaryBasedRemoteFilter<D extends ModelData> extends ComboBoxWi
                             Window.alert("Błąd konwersji danych w filtrze. Na long nie mozna przekonwertowac wartosci: " + key);
                         }
                         break;
-                   default:
+                   case STRING:
                        converted = key;
 
 

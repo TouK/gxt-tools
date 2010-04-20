@@ -67,7 +67,7 @@ public final class ClientDictionary {
 
         dictionaryServiceRpc = (DictionaryServiceGwtAsync) GWT.create(DictionaryServiceGwt.class);
         ServiceDefTarget securityManagerEndpoint = (ServiceDefTarget) dictionaryServiceRpc;
-        securityManagerEndpoint.setServiceEntryPoint(GWT.getModuleBaseURL() + dictionaryServiceEndpointUrl);
+        securityManagerEndpoint.setServiceEntryPoint(dictionaryServiceEndpointUrl);
 
 
         RequestBuilder rb = dictionaryServiceRpc.fetchAllEntryObjectsCategorized(false, new AsyncCallback<Map<String, Map<String, DictionaryEntry>>>() {
