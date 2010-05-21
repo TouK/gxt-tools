@@ -3,12 +3,12 @@
     <artifactId>gxt-tools-lib</artifactId>
     <packaging>jar</packaging>
     <name>Gxt tools jar library</name>
-    <version>1.4.1-SNAPSHOT</version>
+    <version>1.4.1</version>
 
     <parent>
         <groupId>pl.touk.gwt</groupId>
         <artifactId>gxt-tools</artifactId>
-        <version>1.4.1-SNAPSHOT</version>
+        <version>1.4.1</version>
     </parent>
 
     <build>
