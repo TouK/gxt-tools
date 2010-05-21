@@ -3,7 +3,7 @@
     
     <artifactId>tola-usage-example</artifactId>
     <packaging>war</packaging>
-   <version>1.4.1</version>
+    <version>1.4.1</version>
     <name>Aplikacja prezentująca przykłady uzycia widgetów z toli</name>
 
     <parent>
