@@ -86,6 +86,36 @@ public final class ClientDictionary {
         RpcExecutor.execute(rb);
     }
 
+
+    /**
+     * Reinitialize client side dictionary components. You have to call this method first before you do anyting by its API.
+     * Remember that dictionary is fully initialized only after on succes in callback parameter is called. So fully initialize your
+     * application in onSuccess method of callback given as parameter to this method
+     *
+     * @param dictionaryServiceEndpointUrl url of dictionaryService endpoint on server side eg "secure/rpc/dictionaryService.do"
+     * @param callback                     this callback onFailue will be called when sth. bad happens when initializing client side dictionary
+     *                                     (  cannot fetch startup entries, or you specified wrong dictionaryServiceEndpointUrl. onSuccess method is called
+     *                                     when dictionary is fully initialized and ready to use. Initialize your application in onSuccess method of this callback.
+     */
+    public static void reloadDictionaries(final AsyncCallback callback) {
+        if (!initialized) {
+            throw new IllegalStateException("First initialize component");
+        }
+
+        RequestBuilder rb = dictionaryServiceRpc.fetchAllEntryObjectsCategorized(false, new AsyncCallback<Map<String, Map<String, DictionaryEntry>>>() {
+            public void onFailure(Throwable throwable) {
+                callback.onFailure(throwable);
+            }
+
+            public void onSuccess(Map<String, Map<String, DictionaryEntry>> dictionary) {
+                categorizedEntries = dictionary;
+                callback.onSuccess(null);
+            }
+        });
+
+        RpcExecutor.execute(rb);
+    }
+
     /**
      * Get security rpc service in case you need it
      */
