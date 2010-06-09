@@ -5,7 +5,7 @@
     <artifactId>gxt-tools</artifactId>
     <name>Gxt tools</name>
 
-    <version>1.4.3-SNAPSHOT</version>
+    <version>1.4.3</version>
 
     <parent>
         <groupId>pl.touk</groupId>
@@ -283,9 +283,9 @@
      <url>Url</url>
 
      <scm>
-         <connection>scm:svn:http://top.touk.pl/svn/gxt-tools/tags/gxt-tools-1.4.1</connection>
-         <developerConnection>scm:svn:http://top.touk.pl/svn/gxt-tools/tags/gxt-tools-1.4.1</developerConnection>
-         <url>http://top.touk.pl/svn/gxt-tools/tags/gxt-tools-1.4.1</url>
+         <connection>scm:svn:http://top.touk.pl/svn/gxt-tools/tags/gxt-tools-1.4.3</connection>
+         <developerConnection>scm:svn:http://top.touk.pl/svn/gxt-tools/tags/gxt-tools-1.4.3</developerConnection>
+         <url>http://top.touk.pl/svn/gxt-tools/tags/gxt-tools-1.4.3</url>
      </scm>
     
 </project>
