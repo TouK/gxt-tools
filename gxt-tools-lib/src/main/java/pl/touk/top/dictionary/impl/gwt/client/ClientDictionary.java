@@ -88,11 +88,8 @@ public final class ClientDictionary {
 
 
     /**
-     * Reinitialize client side dictionary components. You have to call this method first before you do anyting by its API.
-     * Remember that dictionary is fully initialized only after on succes in callback parameter is called. So fully initialize your
-     * application in onSuccess method of callback given as parameter to this method
+     * Reinitialize client side dictionary components. You have to have dictionary service intialized before.
      *
-     * @param dictionaryServiceEndpointUrl url of dictionaryService endpoint on server side eg "secure/rpc/dictionaryService.do"
      * @param callback                     this callback onFailue will be called when sth. bad happens when initializing client side dictionary
      *                                     (  cannot fetch startup entries, or you specified wrong dictionaryServiceEndpointUrl. onSuccess method is called
      *                                     when dictionary is fully initialized and ready to use. Initialize your application in onSuccess method of this callback.
