@@ -7,6 +7,7 @@ package pl.touk.tola.gwt.client.widgets.file;
 
 import com.extjs.gxt.ui.client.event.*;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
+import com.extjs.gxt.ui.client.widget.Html;
 import com.extjs.gxt.ui.client.widget.LayoutContainer;
 import com.extjs.gxt.ui.client.widget.MessageBox;
 import com.extjs.gxt.ui.client.widget.button.Button;
@@ -42,32 +43,34 @@ public class FileUploadForm extends LayoutContainer {
     
     static private final String CONTROLLER_UPLOAD = "upload=true";
     
-    private final String controllerUrl;
     private final FormPanel form;
     private final FileUploadField fuf;
     private final Button uploadButton;
-    
-    
+    private final Html uploadedFileLink;
+    private FileDescriptorGxt lastUploadedFileDescriptor;
 
     /**
      * Create FileUploadForm with standard settings.
      * Standard settings mean standard UploadDownloadController url.
      */
     public FileUploadForm() {
-        this("fileUploadDownload.do", null);
+        this("fileUploadDownload.do", null, null, null);
     }
 
+    public FileUploadForm(String controllerUrl, String headerText) {
+        this(controllerUrl, headerText, null, null);
+    }
     /**
      * Creates form with fileupload form. 
      * 
      * 
      * @param controllerUrl url where to upload file (UploadDownloadController url)
      * @param headerText header text if null, no header will be displayed
+     * @param initialFileUrl link url if null, no link will be displayed
+     * @param linkTitle link title if null, no link will be displayed
      */
-    public FileUploadForm(String controllerUrl, String headerText) {
+    public FileUploadForm(String controllerUrl, String headerText, String initialFileUrl, String linkTitle) {
 
-        this.controllerUrl = controllerUrl;
-    
         this.setLayout(new FitLayout());
 
         ContentPanel mainPanel = new ContentPanel();
@@ -112,12 +115,24 @@ public class FileUploadForm extends LayoutContainer {
                 form.submit();
             }
         });
+
+        uploadedFileLink = new Html(makeLink(initialFileUrl, linkTitle));
         
         form.add(fuf);
+        form.add(uploadedFileLink);
         form.addButton(uploadButton);
 
         mainPanel.add(form);
         this.add(mainPanel);
+    }
+
+    private String makeLink(String initialFileUrl, String linkTitle) {
+        String html = "";
+        if ((initialFileUrl != null) && (linkTitle != null)) {
+            //TODO: safety checks?
+            html = String.format("<a href=\"%s\">%s</a>", initialFileUrl, linkTitle);
+        }
+        return html;
     }
 
     /**
@@ -150,12 +165,13 @@ public class FileUploadForm extends LayoutContainer {
         String[] fileStatus = tempString.split("\\|");
 
         //only one file can be uploaded, so take care of only one data row
-        FileDescriptorGxt ufb = new FileDescriptorGxt();
-        ufb.setFileId(fileStatus[1]);
-        ufb.setFileName(fileStatus[0]);
-        ufb.setFileSize(fileStatus[2]);
+        lastUploadedFileDescriptor = new FileDescriptorGxt();
+        lastUploadedFileDescriptor.setFileId(fileStatus[1]);
+        lastUploadedFileDescriptor.setFileName(fileStatus[0]);
+        lastUploadedFileDescriptor.setFileSize(fileStatus[2]);
 
-        onSubmit(STATUS_SUCCESS, "You file was uploaded", ufb);
+        onSubmit(STATUS_SUCCESS, "You file was uploaded", lastUploadedFileDescriptor);
+        setFileLink(lastUploadedFileDescriptor.getLink(), lastUploadedFileDescriptor.getFileName());
         return;
     }
 
@@ -204,5 +220,17 @@ public class FileUploadForm extends LayoutContainer {
      */
     public void setUploadButtonText(String text) {
         uploadButton.setText(text);
+    }
+
+    /**
+     * Gets descriptor of last successfully uploaded file
+     */
+    public FileDescriptorGxt getLastUploadedFileDescriptor() {
+        return lastUploadedFileDescriptor;
+    }
+
+    public void setFileLink(String link, String title) {
+        uploadedFileLink.setHtml(makeLink(link, title));
+        //THINK: relayout?
     }
 }

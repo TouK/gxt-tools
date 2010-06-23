@@ -17,6 +17,7 @@ public class FileDescriptor {
     private String fileName;
     private String fileId;
     private Long fileSize;
+    private String fileLink;
 
     public String getFileName() {
         return fileName;
@@ -42,5 +43,12 @@ public class FileDescriptor {
         this.fileSize = fileSize;
     }
     
+    public String getFileLink() {
+        return fileLink;
+    }
+
+    public void setFileLink(String fileLink) {
+        this.fileLink = fileLink;
+    }
 
 }
