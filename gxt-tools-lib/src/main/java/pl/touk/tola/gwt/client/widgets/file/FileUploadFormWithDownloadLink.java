@@ -37,13 +37,13 @@ public class FileUploadFormWithDownloadLink extends FileUploadForm {
         String html = "";
         if ((url != null) && (title != null)) {
             //TODO: safety checks?
-            html = String.format("<a href=\"%s\">%s</a>", url, title);
+            html = "<a href=\"" + url + "\">" + title + "</a>";
         }
         return html;
     }
 
     private String createDownloadUrl(FileDescriptorGxt fileDescriptor) {
         String baseModuleUrl = GWT.getModuleBaseURL();
-        return String.format("%s%s?%s&fileId=%s", baseModuleUrl, controllerUrl, CONTROLLER_DOWNLOAD, fileDescriptor.getFileId());
+        return baseModuleUrl + controllerUrl + "?" + CONTROLLER_DOWNLOAD + "&fileId=" + fileDescriptor.getFileId();
     }
 }
