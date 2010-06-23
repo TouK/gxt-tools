@@ -7,7 +7,6 @@ package pl.touk.tola.gwt.client.widgets.file;
 
 import com.extjs.gxt.ui.client.event.*;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
-import com.extjs.gxt.ui.client.widget.Html;
 import com.extjs.gxt.ui.client.widget.LayoutContainer;
 import com.extjs.gxt.ui.client.widget.MessageBox;
 import com.extjs.gxt.ui.client.widget.button.Button;
@@ -43,10 +42,12 @@ public class FileUploadForm extends LayoutContainer {
     
     static private final String CONTROLLER_UPLOAD = "upload=true";
     
+    protected final String controllerUrl;
+    protected final ContentPanel mainPanel;
     private final FormPanel form;
     private final FileUploadField fuf;
     private final Button uploadButton;
-    private final Html uploadedFileLink;
+
     private FileDescriptorGxt lastUploadedFileDescriptor;
 
     /**
@@ -54,26 +55,23 @@ public class FileUploadForm extends LayoutContainer {
      * Standard settings mean standard UploadDownloadController url.
      */
     public FileUploadForm() {
-        this("fileUploadDownload.do", null, null, null);
+        this("fileUploadDownload.do", null);
     }
 
-    public FileUploadForm(String controllerUrl, String headerText) {
-        this(controllerUrl, headerText, null, null);
-    }
     /**
      * Creates form with fileupload form. 
      * 
      * 
      * @param controllerUrl url where to upload file (UploadDownloadController url)
      * @param headerText header text if null, no header will be displayed
-     * @param initialFileUrl link url if null, no link will be displayed
-     * @param linkTitle link title if null, no link will be displayed
      */
-    public FileUploadForm(String controllerUrl, String headerText, String initialFileUrl, String linkTitle) {
+    public FileUploadForm(String controllerUrl, String headerText) {
 
+        this.controllerUrl = controllerUrl;
+    
         this.setLayout(new FitLayout());
 
-        ContentPanel mainPanel = new ContentPanel();
+        mainPanel = new ContentPanel();
 
         if (headerText != null) {
             mainPanel.setHeaderVisible(true);
@@ -115,24 +113,12 @@ public class FileUploadForm extends LayoutContainer {
                 form.submit();
             }
         });
-
-        uploadedFileLink = new Html(makeLink(initialFileUrl, linkTitle));
         
         form.add(fuf);
-        form.add(uploadedFileLink);
         form.addButton(uploadButton);
 
         mainPanel.add(form);
         this.add(mainPanel);
-    }
-
-    private String makeLink(String initialFileUrl, String linkTitle) {
-        String html = "";
-        if ((initialFileUrl != null) && (linkTitle != null)) {
-            //TODO: safety checks?
-            html = String.format("<a href=\"%s\">%s</a>", initialFileUrl, linkTitle);
-        }
-        return html;
     }
 
     /**
@@ -171,8 +157,6 @@ public class FileUploadForm extends LayoutContainer {
         lastUploadedFileDescriptor.setFileSize(fileStatus[2]);
 
         onSubmit(STATUS_SUCCESS, "You file was uploaded", lastUploadedFileDescriptor);
-        setFileLink(lastUploadedFileDescriptor.getLink(), lastUploadedFileDescriptor.getFileName());
-        return;
     }
 
     
@@ -227,10 +211,5 @@ public class FileUploadForm extends LayoutContainer {
      */
     public FileDescriptorGxt getLastUploadedFileDescriptor() {
         return lastUploadedFileDescriptor;
-    }
-
-    public void setFileLink(String link, String title) {
-        uploadedFileLink.setHtml(makeLink(link, title));
-        //THINK: relayout?
     }
 }

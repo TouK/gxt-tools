@@ -24,7 +24,6 @@ public class FileDescriptorGxt extends BaseModel implements Serializable {
     public static String FILE_ID = "fileId";
     public static String FILE_NAME = "fileName";
     public static String FILE_SIZE = "fileSize";
-    public static String FILE_LINK = "fileLink";
 
     public String getFileId() {
         return get(FILE_ID);
@@ -48,13 +47,5 @@ public class FileDescriptorGxt extends BaseModel implements Serializable {
 
     public void setFileSize(String fileSize) {
         set(FILE_SIZE, fileSize);
-    }
-
-    public String getLink() {
-        return get(FILE_LINK);
-    }
-
-    public void setLink(String link) {
-        set(FILE_LINK, link);
     }
 }
