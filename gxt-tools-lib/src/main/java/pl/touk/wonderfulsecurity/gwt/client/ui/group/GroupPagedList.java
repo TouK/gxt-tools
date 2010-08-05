@@ -82,7 +82,7 @@ public class GroupPagedList extends BasePagedList {
         ToolBar toolbar = new ToolBar();
 
         Button addNewGroup = new Button("Dodaj nową grupę");
-        addNewGroup.setStyleName("icon-add");
+//        addNewGroup.addStyleName("icon-add");
         addNewGroup.addSelectionListener(new SelectionListener<ButtonEvent>() {
 
             public void componentSelected(ButtonEvent ce) {
