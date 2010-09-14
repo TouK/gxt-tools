@@ -227,8 +227,11 @@ public class WsecBaseDaoImpl extends HibernateDaoSupport implements WsecBaseDao 
             criteria.add(Restrictions.like(key.substring(0, key.length() - LIKE_MATCH_END_SUFFIX.length()), "%" + filter));
         } else if (filter == null) {
             criteria.add(Restrictions.isNull(key));
+        } else if (filter instanceof Collection) {
+            criteria.add(Restrictions.in(key, (Collection) filter));
         } else {
             criteria.add(Restrictions.eq(key, filter));
         }
     }
 }
+
