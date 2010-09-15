@@ -70,9 +70,9 @@ public class BasicRemoteFilterField extends TriggerField implements Listener {
 
     @Override
     protected void onTriggerClick(ComponentEvent ce) {
-        super.onTriggerClick(ce);
+       // super.onTriggerClick(ce);
         clear();
-        onFilter();
+        //onFilter();
     }
 
     public void clear() {
