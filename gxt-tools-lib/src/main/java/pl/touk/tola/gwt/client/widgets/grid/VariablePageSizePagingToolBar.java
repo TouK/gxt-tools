@@ -130,6 +130,10 @@ public class VariablePageSizePagingToolBar extends PagingToolBar {
             this.setValue(getStore().getAt(0));
         }
 
+        public void selectLastOption() {
+            this.setValue(getStore().getAt(5));
+        }
+
         // jesli value jest nullem tzn ze w ciastkach podczas inicializacji klasa bazowa nie znalazla wartosci
         // elementu ktory powinien byc zaznaczony
         public int getGridPageSize(){
