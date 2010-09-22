@@ -65,16 +65,16 @@ public class VariablePageSizePagingToolBar extends PagingToolBar {
     @Override
     public void setPageSize(int pageSize) {
         super.setPageSize(pageSize);
-        pageSizeComboBox.setRawValue(""+pageSize);
+        getPageSizeComboBox().setRawValue(""+pageSize);
     }
 
     @Override
     protected void afterRender() {
         super.afterRender();
 //  przy zmianie wartosci w comboboxie zawsze przewijaj do pierwszej strony i ustaw nowo wybrana wartosc jako page size
-        pageSizeComboBox.addListener(Events.Select, new Listener<BaseEvent>() {
+        getPageSizeComboBox().addListener(Events.Select, new Listener<BaseEvent>() {
             public void handleEvent(BaseEvent be) {
-                VariablePageSizePagingToolBar.this.setPageSize(pageSizeComboBox.getValue().getSize());
+                VariablePageSizePagingToolBar.this.setPageSize(getPageSizeComboBox().getValue().getSize());
                 VariablePageSizePagingToolBar.this.first();
 
             }
@@ -89,6 +89,13 @@ public class VariablePageSizePagingToolBar extends PagingToolBar {
 //            }
 //        });
 
+    }
+
+    /**
+     * @return the pageSizeComboBox
+     */
+    public ChoosePageSizeComboBox getPageSizeComboBox() {
+        return pageSizeComboBox;
     }
 
     /**
