@@ -102,7 +102,7 @@ public class VariablePageSizePagingToolBar extends PagingToolBar {
      * Zmodyfikowany ComboBoxWithMemory tak aby przechowywal tylko wartosci wyboru dla ilosci
      * wierszy na stronie
      */
-    static class ChoosePageSizeComboBox extends ComboBoxWithMemory<PageSize> {
+    public static class ChoosePageSizeComboBox extends ComboBoxWithMemory<PageSize> {
 
         protected ListStore<PageSize> pageSizeStore = new ListStore<PageSize>();
 
