@@ -143,7 +143,7 @@ public class VariablePageSizePagingToolBar extends PagingToolBar {
      *
      * @author Lukasz Kucharski - lkc@touk.pl
      */
-    static class PageSize extends BaseModelData {
+    public static class PageSize extends BaseModelData {
 
         public static final List<PageSize> DEFAULT_SET = new ArrayList<PageSize>();
 
