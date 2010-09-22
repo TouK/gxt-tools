@@ -60,9 +60,12 @@ public class VariablePageSizePagingToolBar extends PagingToolBar {
         
         pageSizeComboBox.setWidth(60);
         add(pageSizeComboBox);
+    }
 
-
-
+    @Override
+    public void setPageSize(int pageSize) {
+        super.setPageSize(pageSize);
+        pageSizeComboBox.setRawValue(""+pageSize);
     }
 
     @Override
