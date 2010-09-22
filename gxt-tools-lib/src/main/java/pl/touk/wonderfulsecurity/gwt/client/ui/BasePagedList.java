@@ -16,10 +16,12 @@ package pl.touk.wonderfulsecurity.gwt.client.ui;
 
 
 import com.extjs.gxt.ui.client.data.BasePagingLoader;
+import com.extjs.gxt.ui.client.data.LoadEvent;
 import com.extjs.gxt.ui.client.data.RpcProxy;
 import com.extjs.gxt.ui.client.event.GridEvent;
 import com.extjs.gxt.ui.client.event.Listener;
 import com.extjs.gxt.ui.client.event.Events;
+import com.extjs.gxt.ui.client.event.LoadListener;
 import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.widget.Component;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
@@ -90,6 +92,18 @@ public abstract class BasePagedList extends ContentPanel {
         pagingToolbar = new VariablePageSizePagingToolBar(uniqueName);
         pagingToolbar.bind(pagingLoader);
         this.setBottomComponent(pagingToolbar);
+
+        //dodałem to, bo po zmianie ilosci rekordów w pageowaniu a nastepnie przesortowaniu był bug.
+        pagingLoader.addLoadListener(new LoadListener() {
+
+            @Override
+            public void loaderBeforeLoad(LoadEvent le) {
+                super.loaderBeforeLoad(le);
+                if (pagingToolbar != null) {
+                    pagingLoader.setLimit(pagingToolbar.getPageSize());
+                }
+            }
+        });
 
         Component top = constructTopComponent();
         if (top != null) {
