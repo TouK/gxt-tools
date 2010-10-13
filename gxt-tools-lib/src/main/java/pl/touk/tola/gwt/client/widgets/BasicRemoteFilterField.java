@@ -29,15 +29,17 @@ import com.extjs.gxt.ui.client.widget.toolbar.PagingToolBar;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.KeyboardListener;
 
-
 /**
+ * author Lukasz Kucharski lkc@touk.pl
  */
 public class BasicRemoteFilterField extends TriggerField implements Listener {
+
     protected PagingToolBar pager;
     protected Loader loader;
     protected String currentFilterValue = "";
     protected String filteredPropertyName;
     protected String valueRegex;
+    private boolean filterOnBlur = false;
 
     public BasicRemoteFilterField(PagingToolBar pager, Loader loader) {
         this.pager = pager;
@@ -50,7 +52,7 @@ public class BasicRemoteFilterField extends TriggerField implements Listener {
     }
 
     public BasicRemoteFilterField(PagingToolBar pager, Loader loader,
-        String filterPropertyName) {
+            String filterPropertyName) {
         this(pager, loader);
         this.filteredPropertyName = filterPropertyName;
     }
@@ -62,7 +64,7 @@ public class BasicRemoteFilterField extends TriggerField implements Listener {
      * @param valueRegex         - regex used for value validation
      */
     public BasicRemoteFilterField(PagingToolBar pager, Loader loader,
-        String filterPropertyName, String valueRegex) {
+            String filterPropertyName, String valueRegex) {
         this(pager, loader);
         this.filteredPropertyName = filterPropertyName;
         this.valueRegex = valueRegex;
@@ -70,9 +72,7 @@ public class BasicRemoteFilterField extends TriggerField implements Listener {
 
     @Override
     protected void onTriggerClick(ComponentEvent ce) {
-       // super.onTriggerClick(ce);
         clear();
-        //onFilter();
     }
 
     public void clear() {
@@ -108,8 +108,8 @@ public class BasicRemoteFilterField extends TriggerField implements Listener {
     protected void onFilter() {
         GWT.log("on filter " + getValue() + " cfv: " + currentFilterValue, null);
 
-        if (!(((getValue() != null) && getValue().equals(currentFilterValue)) ||
-                ((getValue() == null) && "".equals(currentFilterValue)))) {
+        if (!(((getValue() != null) && getValue().equals(currentFilterValue))
+                || ((getValue() == null) && "".equals(currentFilterValue)))) {
             currentFilterValue = "" + getValue();
             pager.first();
         }
@@ -118,10 +118,12 @@ public class BasicRemoteFilterField extends TriggerField implements Listener {
     //added to filter when user ends editing the field
     @Override
     protected void onBlur(ComponentEvent arg0) {
-        super.onBlur(arg0);
+        if (isFilterOnBlur()) {
+            super.onBlur(arg0);
 
-        if (this.validate()) {
-            onFilter();
+            if (this.validate()) {
+                onFilter();
+            }
         }
     }
 
@@ -145,8 +147,8 @@ public class BasicRemoteFilterField extends TriggerField implements Listener {
             BasePagingLoadConfig config = (BasePagingLoadConfig) loadEvent.getConfig();
 
             //        Map filterMap = config.getFilterMap();
-            if ((this.getValue() == null) ||
-                    this.getValue().toString().trim().equals("")) {
+            if ((this.getValue() == null)
+                    || this.getValue().toString().trim().equals("")) {
                 config.remove(filteredPropertyName);
             } else {
                 config.set(filteredPropertyName, this.getValue());
@@ -168,5 +170,24 @@ public class BasicRemoteFilterField extends TriggerField implements Listener {
 
     public void setValueRegex(String valueRegex) {
         this.valueRegex = valueRegex;
+    }
+
+    public void setFilterValue(String value) {
+        setValue(value);
+        this.onFilter();
+    }
+
+    /**
+     * @return the filterOnBlur
+     */
+    public boolean isFilterOnBlur() {
+        return filterOnBlur;
+    }
+
+    /**
+     * @param filterOnBlur the filterOnBlur to set
+     */
+    public void setFilterOnBlur(boolean filterOnBlur) {
+        this.filterOnBlur = filterOnBlur;
     }
 }

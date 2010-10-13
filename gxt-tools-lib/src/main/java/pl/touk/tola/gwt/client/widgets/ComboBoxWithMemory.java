@@ -33,14 +33,13 @@ import java.util.HashSet;
  * nie zmieniają się  w czasie dzialania aplikacji
  *
  * @author Lukasz Kucharski - lkc@touk.pl
+ * @author Rafał Pietrasik - rpt@touk.pl
  * @since 0.3.1
  */
 public class ComboBoxWithMemory<D extends ModelData> extends ComboBox<D> implements Listener<FieldEvent> {
 
-    public static final String STATE_MANAGER_KEY = "_currentCountPerPage"; 
-
+    public static final String STATE_MANAGER_KEY = "_currentCountPerPage";
     protected String uniqueName;
-
     protected static HashSet names = new HashSet();
 
     public ComboBoxWithMemory(String uniqueName) {
@@ -74,7 +73,7 @@ public class ComboBoxWithMemory<D extends ModelData> extends ComboBox<D> impleme
     public void setStore(ListStore<D> dListStore) {
         super.setStore(dListStore);
         int selectedIndex = TolaStateManager.get().getInteger(uniqueName + STATE_MANAGER_KEY);
-        
+
         if (selectedIndex != -1) {
             if (selectedIndex < this.getStore().getCount()) {
                 this.disableEvents(true);

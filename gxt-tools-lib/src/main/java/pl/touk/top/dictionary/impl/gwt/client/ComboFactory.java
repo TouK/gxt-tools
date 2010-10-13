@@ -26,9 +26,11 @@ import pl.touk.top.dictionary.impl.gwt.client.widgets.DictionaryBasedRemoteFilte
 import java.util.Map;
 import java.util.List;
 import pl.touk.top.dictionary.impl.gwt.client.widgets.ComboBoxWithClear;
+import pl.touk.top.dictionary.impl.gwt.client.widgets.withMemory.RemoteComboDictionaryFilterWithMemory;
 
 /**
  * @author Lukasz Kucharski - lkc@touk.pl
+ * @author Rafał Pietrasik - rpt@touk.pl
  */
 public final class ComboFactory {
 
@@ -42,7 +44,6 @@ public final class ComboFactory {
         return combo;
 
     }
-
 
     /**
      * Builds static combo box with clear trigger.
@@ -100,6 +101,26 @@ public final class ComboFactory {
         return combo;
     }
 
+    /**
+     * Builds remote combo box with last select value stored in coockie memmory.
+     *
+     * @param dictionaryCategory
+     * @param loader
+     * @param pagingToolbar
+     * @param filterProperty
+     * @param type flag, if property should be send to hibernate as integerValue or long. Have to be specified due to errors with class cast String-->int
+     * @param uniqueName - the name of the combo in coockie
+     * @return
+     */
+    public static DictionaryBasedRemoteFilter buildRemoteFilterComboBoxWithCoockie(String dictionaryCategory, PagingLoader loader, PagingToolBar pagingToolbar, String filterProperty, DictionaryBasedRemoteFilter.TargetFieldType type, String uniqueName) {
+        DictionaryBasedRemoteFilter combo = new RemoteComboDictionaryFilterWithMemory(dictionaryCategory, loader, pagingToolbar, filterProperty, type, uniqueName);
+        combo.setDisplayField("value");
+        combo.setEditable(false);
+        combo.setStore(prepareStore(dictionaryCategory));
+        combo.setTriggerAction(ComboBox.TriggerAction.ALL);
+        return combo;
+    }
+
     protected static ListStore prepareStore(String dictionaryCategory) {
 
         Commons.checkArgumentsNotNull("Kategoria nie moze byc nullem", dictionaryCategory);
@@ -126,8 +147,8 @@ public final class ComboFactory {
 
     protected static void checkDictionaryInitialized() {
         if (!ClientDictionary.isInitialized()) {
-            throw new IllegalStateException("ClientDictionary service is not initialized, are you trying to use this service" +
-                    "before initializing ClientDictionary???");
+            throw new IllegalStateException("ClientDictionary service is not initialized, are you trying to use this service"
+                    + "before initializing ClientDictionary???");
         }
     }
 
@@ -137,5 +158,4 @@ public final class ComboFactory {
         combo.setEditable(false);
         combo.setTriggerAction(ComboBox.TriggerAction.ALL);
     }
-    
 }
