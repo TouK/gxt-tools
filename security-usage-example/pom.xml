@@ -3,12 +3,12 @@
     <artifactId>security-usage-example</artifactId>
     <packaging>war</packaging>
     <name>Przykład wykorzystania wonderful security</name>
-    <version>1.4.10</version>
+    <version>1.4.11-SNAPSHOT</version>
 
     <parent>
         <groupId>pl.touk.gwt</groupId>
         <artifactId>gxt-tools</artifactId>
-        <version>1.4.10</version>
+        <version>1.4.11-SNAPSHOT</version>
     </parent>
 
 
