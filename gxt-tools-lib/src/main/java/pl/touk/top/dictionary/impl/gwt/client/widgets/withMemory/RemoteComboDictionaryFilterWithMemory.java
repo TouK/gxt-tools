@@ -15,12 +15,14 @@ package pl.touk.top.dictionary.impl.gwt.client.widgets.withMemory;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+import com.extjs.gxt.ui.client.data.ModelData;
 import com.extjs.gxt.ui.client.data.PagingLoader;
 import com.extjs.gxt.ui.client.widget.toolbar.PagingToolBar;
 import com.extjs.gxt.ui.client.event.FieldEvent;
 import com.extjs.gxt.ui.client.event.Events;
 import com.extjs.gxt.ui.client.event.Listener;
+import com.extjs.gxt.ui.client.event.SelectionChangedEvent;
+import com.extjs.gxt.ui.client.event.SelectionChangedListener;
 import com.extjs.gxt.ui.client.store.ListStore;
 import com.google.gwt.core.client.GWT;
 import java.util.HashSet;
@@ -36,7 +38,7 @@ import pl.touk.top.dictionary.impl.gwt.client.widgets.DictionaryBasedRemoteFilte
 public class RemoteComboDictionaryFilterWithMemory extends DictionaryBasedRemoteFilter {
 
     private static final HashSet<String> names = new HashSet<String>();
-    private static final String COMBO_MEMORY_SUFFIX = "dicSuff";
+    private static final String COMBO_MEMORY_SUFFIX = "dicSuff_byVal";
     private String uniqueName;
 
     /**
@@ -47,7 +49,7 @@ public class RemoteComboDictionaryFilterWithMemory extends DictionaryBasedRemote
     public RemoteComboDictionaryFilterWithMemory(String dictionaryCategory, PagingLoader loader, PagingToolBar pagingToolbar, String filterProperty, DictionaryBasedRemoteFilter.TargetFieldType type, final String uniqueName) {
         super(loader, pagingToolbar, filterProperty, type);
         if (uniqueName == null) {
-            throw new IllegalArgumentException("Nazwa RemotComboDictionaryFilterWithMemory nie może być nullem!");
+            throw new IllegalArgumentException("Nazwa RemoteComboDictionaryFilterWithMemory nie może być nullem!");
         }
 
         if (names.contains(uniqueName)) {
@@ -58,19 +60,30 @@ public class RemoteComboDictionaryFilterWithMemory extends DictionaryBasedRemote
         this.setEmptyText(emptyText);
 
 
-        this.addListener(Events.Select, new Listener<FieldEvent>() {
+        this.addSelectionChangedListener(new SelectionChangedListener() {
 
-            
-            public void handleEvent(FieldEvent be) {
-                if (be.getType() == Events.Select) {
-                    int index = getStore().indexOf(getValue());
-                    TolaStateManager.get().set(uniqueName + COMBO_MEMORY_SUFFIX, index);
-                    GWT.log("ustawiles filtr"+uniqueName+" na:"+index);
-                }
+            @Override
+            public void selectionChanged(SelectionChangedEvent se) {
+                Object selectedKey = se.getSelectedItem().get(DictionaryBasedRemoteFilter.ENTRYKEY);
+                //   int index = getStore().indexOf(getValue());
+                TolaStateManager.get().set(uniqueName + COMBO_MEMORY_SUFFIX, selectedKey);
+                GWT.log("ustawiles filtr" + uniqueName + " na:" + selectedKey);
             }
         });
+//        Listener(Events.SelectionChange, new Listener<SelectionChangedEvent>() {
+//
+//
+//            public void handleEvent(SelectionChangedEvent be) {
+//                if (be.getType() == Events.SelectionChange) {
+//                    int index = getStore().indexOf(getValue());
+//                    TolaStateManager.get().set(uniqueName + COMBO_MEMORY_SUFFIX, index);
+//                    GWT.log("ustawiles filtr"+uniqueName+" na:"+index);
+//                }
+//            }
+//        });
     }
 
+    @Override
     public void clearSelections() {
         super.clearSelections();
         //reset wartości filtra
@@ -81,19 +94,22 @@ public class RemoteComboDictionaryFilterWithMemory extends DictionaryBasedRemote
         return uniqueName;
     }
 
+    @Override
     public void setStore(ListStore dListStore) {
         super.setStore(dListStore);
         Object obj = TolaStateManager.get().get(uniqueName + COMBO_MEMORY_SUFFIX);
+        GWT.log("!=nulll");
         if (obj != null) {
+            GWT.log("--------$$$$$$$$$$$$$$$$$$$$$$$$$$$-------------"+obj);
+            GWT.log("--------$$$$$$$$$$$$$$$$$$$$$$$$$$$-------------"+obj);
+            ModelData selectedModel = dListStore.findModel(DictionaryBasedRemoteFilter.ENTRYKEY, obj);
+//             ModelData selectedModel2 = findModel(dListStore.getModels(), )
+            GWT.log("--------$$$$$$$$$$$$$$$$$$$$$$$$$$$-------------"+selectedModel);
+            if (selectedModel != null) {
+                this.disableEvents(true);
+                this.setValue(selectedModel);
+                this.disableEvents(false);
 
-            int selectedIndex = (Integer) obj;
-            this.setEmptyText(""+selectedIndex);
-            if (selectedIndex != -1) {
-                if (selectedIndex < dListStore.getCount()) {
-                    this.disableEvents(true);
-                    this.setValue(dListStore.getAt(selectedIndex));
-                    this.disableEvents(false);
-                }
             }
         }
     }

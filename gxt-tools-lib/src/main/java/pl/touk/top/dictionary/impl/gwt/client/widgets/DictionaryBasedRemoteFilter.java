@@ -29,6 +29,7 @@ import com.google.gwt.user.client.*;
  * @author Michał Zalewski - mzl@touk.pl
  */
 public class DictionaryBasedRemoteFilter<D extends ModelData> extends ComboBoxWithClear<D> implements Listener {
+    public static final String ENTRYKEY = "entryKey";
 
     public static enum TargetFieldType{INTEGER, LONG, STRING}
     // ------------------------------ FIELDS ------------------------------
@@ -87,7 +88,7 @@ public class DictionaryBasedRemoteFilter<D extends ModelData> extends ComboBoxWi
                 config.remove(filteredPropertyName);
             } else {
                 //try to convert to long
-                String key = this.getValue().get("entryKey");
+                String key = this.getValue().get(ENTRYKEY);
                 Object converted = null;
                 switch (conversionType) {
                     case INTEGER:
