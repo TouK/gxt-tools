@@ -45,7 +45,7 @@ public class HibernateExportGetterTest {
         csvExporter.setWsecBaseDao(dao);
 
         //when
-        List<String> fieldNames = csvExporter.getFieldNames("pl.touk.nsw.fe.shared.controllers.beans.ExportParameters");
+        List<String> fieldNames = csvExporter.getFieldNames("pl.touk.tola.gwt.shared.ExportParameters");
         //then
         assertTrue("" + fieldNames.size(), fieldNames.size() == 5);
 
