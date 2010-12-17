@@ -23,10 +23,13 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
+import pl.touk.tola.spring.mvc.file.FileDescriptor;
+import pl.touk.tola.spring.mvc.file.FileSaveException;
+import pl.touk.tola.spring.mvc.file.UploadDownloadProcessor;
 
 /**
- *  TODO: document this...
- * 
+ *  TODO: przenies to do gxt tools, jak zacznie dzialac svn na top'ie
+ *
  *  Standard spring configuration:
  *   <bean id="fileUploadController" class="pl.touk.tola.spring.mvc.file.UploadDownloadController">
  *          <property name="uploadDownloadProcessor" ref="<UploadDownloadProcessor implementation>"/>
@@ -42,9 +45,9 @@ public class UploadDownloadController extends AbstractController {
     public static String PARAM_UPLOAD = "upload";
     public static String PARAM_DOWNLOAD = "download";
     public static String PARAM_GET_INFO = "info";
-    
+
     protected static Log log = LogFactory.getLog(UploadDownloadController.class);
-    
+
     private UploadDownloadProcessor uploadDownloadProcessor;
 
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -74,7 +77,7 @@ public class UploadDownloadController extends AbstractController {
             InputStream downloadedFile = uploadDownloadProcessor.download(fd);
 
             response.addHeader("Content-Type", "application/txt");
-            response.setHeader("Content-Disposition", "attachment; filename=" + fd.getFileName());  //TODO: get fileName from uploadDownloadProcessor.getFileDescription 
+            response.setHeader("Content-Disposition", "attachment; filename=" + fd.getFileName());  //TODO: get fileName from uploadDownloadProcessor.getFileDescription
 
             org.apache.commons.io.IOUtils.copy(downloadedFile, response.getOutputStream());
 
@@ -131,7 +134,7 @@ public class UploadDownloadController extends AbstractController {
             for (FileItem fi : items) {
                 if (!fi.isFormField()) {
                     FileDescriptor fd = uploadDownloadProcessor.save(fi.getInputStream());
-                    returnMsgs.add(fi.getName() + "|" + fd.getFileId() + "|" + fi.getSize());
+                    returnMsgs.add(handleIEFilenames(fi.getName()) + "|" + fd.getFileId() + "|" + fi.getSize());
                     log.debug("Saving file:" + fi.getName() + " status:" + fd.getFileId());
                 }
             }
@@ -150,6 +153,21 @@ public class UploadDownloadController extends AbstractController {
         }
 
         return returnMsgs;
+    }
+
+    private String handleIEFilenames(String fileName) {
+        String returnName = fileName;
+        if (fileName != null) {
+            int lastSlashPosition = fileName.lastIndexOf("\\"); //wycinam slasha
+            int length = fileName.length();
+            returnName = fileName.substring(lastSlashPosition+1, length);
+
+            //wycinam drugiego slasha czy tam backslasha
+            length = returnName.length();
+            lastSlashPosition = returnName.lastIndexOf("/");
+            returnName = returnName.substring(lastSlashPosition+1, length);
+        }
+        return returnName;
     }
 
     public UploadDownloadProcessor getUploadDownloadProcessor() {
