@@ -31,7 +31,6 @@ import pl.touk.tola.gwt.client.model.file.FileDescriptorGxt;
  * 
  * TODO: move constant parameters to single common class
  * 
- * @author Rafał Pietrasik rpt@touk.pl
  */
 public class FileUploadForm extends LayoutContainer {
 
@@ -148,6 +147,9 @@ public class FileUploadForm extends LayoutContainer {
         //no error, so prepare data
         //TODO: this should be done with xml
         String tempString = resultHtml.substring(5, resultHtml.length() - 6);
+
+        tempString = replacePre(tempString);
+
         String[] fileStatus = tempString.split("\\|");
 
         //only one file can be uploaded, so take care of only one data row
@@ -157,6 +159,10 @@ public class FileUploadForm extends LayoutContainer {
         lastUploadedFileDescriptor.setFileSize(fileStatus[2]);
 
         onSubmit(STATUS_SUCCESS, "You file was uploaded", lastUploadedFileDescriptor);
+    }
+
+        String replacePre(String resultHtml) {
+        return resultHtml.replaceAll("<.?pre[^>]*>","");
     }
 
     

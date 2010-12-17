@@ -23,9 +23,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
-import pl.touk.tola.spring.mvc.file.FileDescriptor;
-import pl.touk.tola.spring.mvc.file.FileSaveException;
-import pl.touk.tola.spring.mvc.file.UploadDownloadProcessor;
 
 /**
  *  TODO: przenies to do gxt tools, jak zacznie dzialac svn na top'ie

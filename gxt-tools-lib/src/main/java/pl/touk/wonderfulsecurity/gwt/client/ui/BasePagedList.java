@@ -38,8 +38,10 @@ import java.util.List;
 import java.util.Collections;
 
 /**
+ * TODO: by rpt to trzeba przeniesc z tego pakietu. Tabelka jest w tyms amym pakeicie co logger ? w ogole co to robi w security ? oznaczam jako deprecated. Tym bardziej, ze ulepszylismy implementacje
  * @author Lukasz Kucharski - lkc@touk.pl
  */
+@Deprecated
 public abstract class BasePagedList extends ContentPanel {
 // ------------------------------ FIELDS ------------------------------
 
