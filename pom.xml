@@ -7,6 +7,19 @@
 
     <version>1.4.12-SNAPSHOT</version>
 
+ <distributionManagement>
+    <repository>
+        <id>top.release</id>
+        <name>TouK Open source repository</name>
+        <url>sftp://top.touk.pl/release/</url>
+    </repository>
+    <snapshotRepository>
+        <id>top.snapshot</id>
+        <name>TouK open source snapshot repository</name>
+        <url>sftp://top.touk.pl/snapshot</url>
+    </snapshotRepository>
+</distributionManagement>
+
     <parent>
         <groupId>pl.touk</groupId>
         <artifactId>top</artifactId>
