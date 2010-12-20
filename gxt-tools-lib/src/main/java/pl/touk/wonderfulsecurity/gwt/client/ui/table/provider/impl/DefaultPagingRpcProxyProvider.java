@@ -41,12 +41,10 @@ public class DefaultPagingRpcProxyProvider implements PagingRpcProxyProvider {
     private static final String ENDPOINT_URL = "rpc/pagedData.do";
     private static PagedDataProviderRpcAsync service;
 
-    @Override
     public RpcProxy<Object> createProxy(final Class<?> clazz) {
         return createProxy(clazz, new HashMap<String, Object>());
     }
 
-    @Override
     public RpcProxy<Object> createProxy(final Class<?> clazz, final Map<String, Object> queryParameters) {
         RpcProxy<Object> proxy = new RpcProxy<Object>() {
 
