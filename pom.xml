@@ -5,7 +5,7 @@
     <artifactId>gxt-tools</artifactId>
     <name>Gxt tools</name>
 
-    <version>1.4.13-SNAPSHOT</version>
+    <version>1.4.12-SNAPSHOT</version>
 
     <parent>
         <groupId>pl.touk</groupId>
