@@ -29,15 +29,21 @@ import pl.touk.wonderfulsecurity.gwt.client.ui.table.provider.impl.DefaultPaging
  */
 public class ComboFromDao extends ComboBox<ModelData> {
 
-    private static final int NO_LIMIT=9999999;
-
+    private static final int NO_LIMIT = 9999999;
     Map<String, Object> parametersToQuery = new HashMap<String, Object>();
     private String lazyId;
     private String lazyIdProperty;
     private final String sortField;
+    private String displayField;
+    private final boolean withTips;
+    private boolean triggerClicked = false;
+
+    public ComboFromDao(String label, String displayField, Class clazz, boolean editable, boolean withTips) {
+        this(label, displayField, displayField, clazz, editable, withTips);
+    }
 
     public ComboFromDao(String label, String displayField, Class clazz, boolean editable) {
-        this(label, displayField, displayField, clazz, editable);
+        this(label, displayField, displayField, clazz, editable, false);
     }
 
     /**
@@ -48,7 +54,7 @@ public class ComboFromDao extends ComboBox<ModelData> {
      * @param clazz        klasa z mapowaniem hiberante
      * @param editable	   czy combo ma byc edytowalne	
      */
-    public ComboFromDao(String label, String displayField, String sortField,  Class clazz, boolean editable) {
+    public ComboFromDao(String label, String displayField, String sortField, Class clazz, boolean editable, boolean withTips) {
         PagingLoader<PagingLoadResult<ModelData>> loader = createLoader(sortField, clazz);
         setStore(new ListStore(loader));
         setUpCombo(label, displayField);
@@ -58,13 +64,15 @@ public class ComboFromDao extends ComboBox<ModelData> {
             setValidator(createNotNullDictionaryValidator(displayField));
         }
         this.sortField = sortField;
+        this.displayField = displayField;
+        this.withTips = withTips;
         this.setLazyRender(!editable); //gdy edytowalne, to wyłaczamy lazyInit'a
 
     }
 
     protected void onRender(Element parent, int index) {
         super.onRender(parent, index);
-        
+
     }
 
     /**
@@ -77,7 +85,7 @@ public class ComboFromDao extends ComboBox<ModelData> {
         this(label, displayField, clazz, true);
     }
 
-     private Validator createNotNullDictionaryValidator(final String propertyToValidate) {
+    private Validator createNotNullDictionaryValidator(final String propertyToValidate) {
         return new Validator() {
 
             public String validate(Field<?> field, String value) {
@@ -105,8 +113,14 @@ public class ComboFromDao extends ComboBox<ModelData> {
 
         RpcProxy proxy = createProxy(clazz);
         PagingLoader<PagingLoadResult<ModelData>> loader = new BasePagingLoader(proxy, new PagedQueryResultReader(clazz));
-        
+
         return loader;
+    }
+
+    @Override
+    public void doQuery(String q, boolean forceAll) {
+        triggerClicked = forceAll;
+        super.doQuery(q, forceAll);
     }
 
     public RpcProxy createProxy(final Class clazz) {
@@ -122,6 +136,15 @@ public class ComboFromDao extends ComboBox<ModelData> {
                 //to ponizsze musi zostac, bo inaczej jest max 50 rekordów
                 basePagingLoadConfig.setLimit(NO_LIMIT);
                 basePagingLoadConfig.setOffset(0);
+                if (withTips) {
+                    if (!triggerClicked) {
+                        String newValue = getRawValue();
+                        parametersToQuery.put(displayField + "#LIKE_MATCH_START", newValue);
+                    } else {
+                        parametersToQuery.remove(displayField + "#LIKE_MATCH_START");
+                    }
+                    triggerClicked = false;
+                }
                 defaultPagingRpcProxyProvider.fetchPagedData(clazz, parametersToQuery, basePagingLoadConfig, getCallback(asyncCallback));
             }
         };
@@ -150,7 +173,6 @@ public class ComboFromDao extends ComboBox<ModelData> {
     public void clearQueryParameters() {
         parametersToQuery.clear();
     }
-
 
     protected AsyncCallback getCallback(final AsyncCallback original) {
         GWT.log("return from combo" + lazyIdProperty);
@@ -194,12 +216,11 @@ public class ComboFromDao extends ComboBox<ModelData> {
         this.lazyIdProperty = lazyIdProperty;
     }
 
-     public Long getPropertyFromSelectionAsLong(String property) {
+    public Long getPropertyFromSelectionAsLong(String property) {
         ModelData selectedModel = this.getValue();
         if (selectedModel != null) {
             return (Long) selectedModel.get(property);
         }
         return null;
     }
-
 }
