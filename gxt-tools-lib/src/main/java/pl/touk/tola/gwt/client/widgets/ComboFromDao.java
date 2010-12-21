@@ -138,9 +138,9 @@ public class ComboFromDao extends ComboBox<ModelData> {
                 if (withTips) {
                     if (!triggerClicked) {
                         String newValue = getRawValue();
-                        parametersToQuery.put(displayField + "#LIKE_MATCH_START", newValue);
+                        parametersToQuery.put(displayField + "@#LIKE_MATCH_START", newValue);
                     } else {
-                        parametersToQuery.remove(displayField + "#LIKE_MATCH_START");
+                        parametersToQuery.remove(displayField + "@#LIKE_MATCH_START");
                     }
                     triggerClicked = false;
                 }
