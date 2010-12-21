@@ -117,7 +117,6 @@ public class ComboFromDao extends ComboBox<ModelData> {
         return loader;
     }
 
-    @Override
     public void doQuery(String q, boolean forceAll) {
         triggerClicked = forceAll;
         super.doQuery(q, forceAll);
