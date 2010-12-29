@@ -31,14 +31,20 @@ import com.extjs.gxt.ui.client.widget.toolbar.PagingToolBar;
 import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
 import com.extjs.gxt.ui.client.widget.grid.Grid;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import pl.touk.wonderfulsecurity.beans.PagedQueryResult;
 import pl.touk.wonderfulsecurity.gwt.client.model.PagedQueryResultReader;
 import pl.touk.tola.gwt.client.widgets.grid.VariablePageSizePagingToolBar;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
 
 /**
  * TODO: by rpt to trzeba przeniesc z tego pakietu. Tabelka jest w tyms amym pakeicie co logger ? w ogole co to robi w security ? oznaczam jako deprecated. Tym bardziej, ze ulepszylismy implementacje
+ *
  * @author Lukasz Kucharski - lkc@touk.pl
  */
 @Deprecated
@@ -51,10 +57,12 @@ public abstract class BasePagedList extends ContentPanel {
     protected Class readerBeanFactoryClass;
     protected Grid grid;
     protected String uniqueName;
+    //To jest pole, po ktorym poznajemy, ktory wiersz podswietlic po zaznaczeniu
+    protected String selectionId = "id";
 
 // --------------------------- CONSTRUCTORS ---------------------------
 
-    protected  BasePagedList(Class clazz, String uniqueName) {
+    protected BasePagedList(Class clazz, String uniqueName) {
         this.uniqueName = uniqueName;
         this.readerBeanFactoryClass = clazz;
 
@@ -62,7 +70,7 @@ public abstract class BasePagedList extends ContentPanel {
         this.setFrame(true);
         this.setHeading(buildHeading());
 
-        RpcProxy proxy = constructRpcProxy();
+        RpcProxy proxy = afterLoadSelectionProxy(constructRpcProxy());
 
         if (readerBeanFactoryClass == null) {
             pagingLoader = new BasePagingLoader(proxy, new PagedQueryResultReader());
@@ -80,7 +88,7 @@ public abstract class BasePagedList extends ContentPanel {
         grid.setAutoExpandMax(800);
         grid.setAutoExpandColumn(expandedColumnId);
 
-        grid.addListener(Events.RowDoubleClick,new Listener<GridEvent>(){
+        grid.addListener(Events.RowDoubleClick, new Listener<GridEvent>() {
             public void handleEvent(GridEvent ge) {
                 afterGridRowDoubleClicked(ge);
             }
@@ -113,7 +121,7 @@ public abstract class BasePagedList extends ContentPanel {
         }
 
         add(grid);
-        
+
     }
 
 // --------------------- GETTER / SETTER METHODS ---------------------
@@ -146,7 +154,42 @@ public abstract class BasePagedList extends ContentPanel {
 
     }
 
-    protected List<ComponentPlugin> buildGridPlugins(){
+    private RpcProxy afterLoadSelectionProxy(final RpcProxy proxy) {
+        return new RpcProxy() {
+            @Override
+            protected void load(Object o, AsyncCallback asyncCallback) {
+                proxy.load(null, o, selectionCallback(asyncCallback));
+            }
+        };
+    }
+
+    private AsyncCallback selectionCallback(final AsyncCallback asyncCallback) {
+        com.extjs.gxt.ui.client.data.ModelData selected = grid.getSelectionModel().getSelectedItem();
+        final Object currentlySelected = selected == null ? null : selected.get(selectionId);
+
+        return new AsyncCallback() {
+            public void onFailure(Throwable throwable) {
+                asyncCallback.onFailure(throwable);
+            }
+
+            public void onSuccess(Object arrayListPagedQueryResult) {
+                asyncCallback.onSuccess(arrayListPagedQueryResult);
+                if (currentlySelected != null) {
+                    selectById(currentlySelected);
+                }
+            }
+        };
+    }
+
+    private void selectById(Object id) {
+        for (int i = 0; i < grid.getStore().getCount(); i++) {
+            if (id.equals(grid.getStore().getAt(i).get(selectionId))) {
+                grid.getSelectionModel().select(i, false);
+            }
+        }
+    }
+
+    protected List<ComponentPlugin> buildGridPlugins() {
         return Collections.EMPTY_LIST;
     }
 
