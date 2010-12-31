@@ -3,13 +3,13 @@
     
     <artifactId>tola-usage-example</artifactId>
     <packaging>war</packaging>
-    <version>1.4.14-SNAPSHOT</version>
+    <version>1.4.14</version>
     <name>Aplikacja prezentująca przykłady uzycia widgetów z toli</name>
 
     <parent>
         <artifactId>gxt-tools</artifactId>
         <groupId>pl.touk.gwt</groupId>
-        <version>1.4.14-SNAPSHOT</version>
+        <version>1.4.14</version>
     </parent>
     
     <url>http://maven.apache.org</url>
