@@ -5,7 +5,7 @@
     <artifactId>gxt-tools</artifactId>
     <name>Gxt tools</name>
 
-    <version>1.4.15-SNAPSHOT</version>
+    <version>1.5.0-SNAPSHOT</version>
 
  <distributionManagement>
     <repository>
@@ -29,9 +29,9 @@
  
     <modules>
         <module>gxt-tools-lib</module>
-        <module>security-usage-example</module>
-        <module>tola-usage-example</module>
-        <module>dictionary-example</module>
+        <!--<module>security-usage-example</module>-->
+        <!--<module>tola-usage-example</module>-->
+        <!--<module>dictionary-example</module>-->
         <module>security-ddl-gen</module>
 
     </modules>
@@ -54,7 +54,7 @@
         <beanlib-hibernate.version>3.3.0beta20b</beanlib-hibernate.version>
         <beanlib.version>3.3.0beta20b</beanlib.version>
 
-        <gwt-maven-plugin.version>6.0.1</gwt-maven-plugin.version>
+        <gwt-maven-plugin.version>2.1.0</gwt-maven-plugin.version>
 
         <xstream.version>1.3</xstream.version>
 
@@ -175,6 +175,24 @@
                                 <artifactId>gxt-mission-pack</artifactId>
                                 <version>1.0</version>
                                 <type>pom</type>
+                                <exclusions>
+                <exclusion>
+                     <groupId>com.google.gwt</groupId>
+                    <artifactId>gwt-dev</artifactId>
+                </exclusion>
+                <exclusion>
+                      <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-servlet</artifactId>
+                </exclusion>
+                <exclusion>
+                      <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-user</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring</artifactId>
+                </exclusion>
+            </exclusions>
                             </dependency>
                     </dependencies>
                 </plugin>
@@ -192,6 +210,24 @@
                 <version>1.0</version>
                 <type>pom</type>
                 <scope>import</scope>
+                <exclusions>
+                <exclusion>
+                     <groupId>com.google.gwt</groupId>
+                    <artifactId>gwt-dev</artifactId>
+                </exclusion>
+                <exclusion>
+                      <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-servlet</artifactId>
+                </exclusion>
+                <exclusion>
+                      <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-user</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring</artifactId>
+                </exclusion>
+            </exclusions>
             </dependency>
 
             <dependency>

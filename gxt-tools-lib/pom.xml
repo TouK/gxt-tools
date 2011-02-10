@@ -3,12 +3,12 @@
     <artifactId>gxt-tools-lib</artifactId>
     <packaging>jar</packaging>
     <name>Gxt tools jar library</name>
-    <version>1.4.15-SNAPSHOT</version>
+    <version>1.5.0-SNAPSHOT</version>
 
     <parent>
         <groupId>pl.touk.gwt</groupId>
         <artifactId>gxt-tools</artifactId>
-        <version>1.4.15-SNAPSHOT</version>
+        <version>1.5.0-SNAPSHOT</version>
     </parent>
 
     <build>
@@ -36,6 +36,20 @@
             <artifactId>mission-pack</artifactId>
             <version>2.0.0</version>
             <type>pom</type>
+            <exclusions>
+                <exclusion>
+                     <groupId>com.google.gwt</groupId>
+                    <artifactId>gwt-dev</artifactId>
+                </exclusion>
+                <exclusion>
+                      <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-servlet</artifactId>
+                </exclusion>
+                <exclusion>
+                      <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-user</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!-- CSV Export / Import -->
         <dependency>
@@ -65,12 +79,36 @@
             <type>pom</type>
             <exclusions>
                 <exclusion>
+                     <groupId>com.google.gwt</groupId>
+                    <artifactId>gwt-dev</artifactId>
+                </exclusion>
+                <exclusion>
+                      <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-servlet</artifactId>
+                </exclusion>
+                <exclusion>
+                      <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-user</artifactId>
+                </exclusion>
+                <exclusion>
                     <groupId>org.springframework</groupId>
                     <artifactId>spring</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
 
+ <dependency>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-servlet</artifactId>
+            <version>2.1.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-user</artifactId>
+            <version>2.1.0</version>
+            <scope>provided</scope>
+        </dependency>
 
         <dependency>
             <artifactId>derby</artifactId>

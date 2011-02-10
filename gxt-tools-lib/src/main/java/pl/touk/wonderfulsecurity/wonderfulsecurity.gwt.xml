@@ -2,7 +2,7 @@
 
 
     <inherits name="com.google.gwt.user.User"/>
-    <inherits name="com.extjs.gxt.ui.GXT"/>
+    <!--<inherits name="com.extjs.gxt.ui.GXT"/>-->
     <!-- import tola library -->
     <inherits name='pl.touk.tola.gwt.TolaModule'/>
     <inherits name='com.google.gwt.http.HTTP'/>

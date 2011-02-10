@@ -147,7 +147,7 @@
                                 </argument>
                                 <argument>-out</argument>
                                 <argument>
-                                    ${project.build.directory}/www
+                                    ${project.build.directory}/www/wonderful-security-example
                                 </argument>
                                 <argument>-noserver</argument>
                                 <argument>${app.url}</argument>
@@ -175,7 +175,7 @@
                                 pl.touk.example.gwt.ExampleModule
                             </className>
                             <outputDirectory>
-                                ${project.build.directory}/www
+                                ${project.build.directory}/www/wonderful-security-example/
                             </outputDirectory>
                             <style>PRETTY</style>
                             <source>5</source>
@@ -202,7 +202,7 @@
                             <webResources>
                                 <resource>
                                     <directory>
-                                        ${project.build.directory}/www/pl.touk.example.gwt.ExampleModule
+                                        ${project.build.directory}/www/wonderful-security-example/pl.touk.example.gwt.ExampleModule
                                     </directory>
                                 </resource>
                             </webResources>
