@@ -78,6 +78,7 @@ public class WsecBaseDaoImpl extends HibernateDaoSupport implements WsecBaseDao 
                     DetachedCriteria detachedCriteria = buildCriteriaFromMapOfParameters(queryParameters, clazz);
                     Criteria criteria = detachedCriteria.getExecutableCriteria(session);
                     applySorting(criteria, sortColumn, desc);
+                    criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
                     return criteria.list();
                 }
             });
@@ -97,6 +98,7 @@ public class WsecBaseDaoImpl extends HibernateDaoSupport implements WsecBaseDao 
                 DetachedCriteria detachedCriteria = buildCriteriaFromMapOfParameters(queryParameters, clazz);
                 Criteria criteria = detachedCriteria.getExecutableCriteria(session);
                 applySortingOffSetAndLimit(criteria, offset, howMany, sortColumn, desc);
+                criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
                 return criteria.list();
             }
         });
