@@ -41,6 +41,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
+import pl.touk.tola.gwt.client.widgets.grid.VariablePageSizePagingToolBarWithMemmory;
 
 /**
  * TODO: by rpt to trzeba przeniesc z tego pakietu. Tabelka jest w tyms amym pakeicie co logger ? w ogole co to robi w security ? oznaczam jako deprecated. Tym bardziej, ze ulepszylismy implementacje
@@ -63,6 +64,9 @@ public abstract class BasePagedList extends ContentPanel {
 // --------------------------- CONSTRUCTORS ---------------------------
 
     protected BasePagedList(Class clazz, String uniqueName) {
+        this(clazz, uniqueName, true);
+    }
+    protected BasePagedList(Class clazz, String uniqueName, boolean withCoockie) {
         this.uniqueName = uniqueName;
         this.readerBeanFactoryClass = clazz;
 
@@ -98,8 +102,11 @@ public abstract class BasePagedList extends ContentPanel {
             grid.addPlugin(plugin);
         }
 
-
-        pagingToolbar = new VariablePageSizePagingToolBar(uniqueName);
+        if (withCoockie) {
+        pagingToolbar = new VariablePageSizePagingToolBarWithMemmory(uniqueName);
+        } else {
+            pagingToolbar = new VariablePageSizePagingToolBar();
+        }
         pagingToolbar.bind(pagingLoader);
         this.setBottomComponent(pagingToolbar);
 

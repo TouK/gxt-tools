@@ -11,6 +11,7 @@ import com.google.gwt.core.client.GWT;
 
 import java.util.Arrays;
 import java.util.Map;
+import pl.touk.tola.gwt.client.widgets.grid.TolaPagingToolbar;
 
 import pl.touk.tola.gwt.client.widgets.grid.VariablePageSizePagingToolBar;
 import pl.touk.tola.gwt.client.widgets.grid.VariablePageSizePagingToolBar.ChoosePageSizeComboBox;
@@ -26,17 +27,17 @@ public abstract class BasePagedList<T> extends pl.touk.wonderfulsecurity.gwt.cli
  
     private static final int INITIAL_RECORDS = 100;
 
-    protected BasePagedList(Class clazz, String uniqueName, String id) {
-        super(clazz, uniqueName);
+     protected BasePagedList(Class clazz, String uniqueName, String id) {
+        this(clazz, uniqueName, id, true);
+    }
+
+    protected BasePagedList(Class clazz, String uniqueName, String id, boolean withMemory) {
+        super(clazz, uniqueName, withMemory);
         setId(id);
         grid.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         pagingLoader.setLimit(INITIAL_RECORDS);
         pagingToolbar.setPageSize(INITIAL_RECORDS);
-        ChoosePageSizeComboBox choosePageSizeComboBox = ((VariablePageSizePagingToolBar) pagingToolbar).getPageSizeComboBox();
-        choosePageSizeComboBox.selectLastOption();
-        //little hack, to set combo for 100 records per page.
-        //TODO: remove this aftere gxt-tools release complete
-        //choosePageSizeComboBox.setValue(choosePageSizeComboBox.getStore().getAt(5));
+        ((TolaPagingToolbar) pagingToolbar).selectLastOption();
     }
 
     

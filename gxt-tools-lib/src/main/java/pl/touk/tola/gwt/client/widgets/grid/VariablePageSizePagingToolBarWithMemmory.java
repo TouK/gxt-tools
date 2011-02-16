@@ -21,7 +21,6 @@ import com.extjs.gxt.ui.client.widget.toolbar.LabelToolItem;
 import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.event.*;
 import com.extjs.gxt.ui.client.data.BaseModelData;
-import com.extjs.gxt.ui.client.widget.form.ComboBox;
 import pl.touk.tola.gwt.client.widgets.ComboBoxWithMemory;
 
 import java.util.List;
@@ -35,7 +34,7 @@ import java.util.ArrayList;
  * @author Lukasz Kucharski - lkc@touk.pl
  * @since 0.3.1
  */
-public class VariablePageSizePagingToolBar extends PagingToolBar implements TolaPagingToolbar  {
+public class VariablePageSizePagingToolBarWithMemmory extends PagingToolBar implements TolaPagingToolbar {
     private ChoosePageSizeComboBox pageSizeComboBox;
 
     /**
@@ -43,12 +42,12 @@ public class VariablePageSizePagingToolBar extends PagingToolBar implements Tola
      *
      * @param uniqueName unikalna nazwa wykorzystana jako klucz do zapisu wybranej wartosci w cisteczkach
      */
-    public VariablePageSizePagingToolBar() {
+    public VariablePageSizePagingToolBarWithMemmory(String uniqueName) {
 
         super(PageSize.DEFAULT_SET.get(0).getSize());
         add(new SeparatorToolItem());
         add(new LabelToolItem("Wyników na stronie:"));
-        pageSizeComboBox = new ChoosePageSizeComboBox();
+        pageSizeComboBox = new ChoosePageSizeComboBox(uniqueName);
 //      jesli pageSizeComboBox zwroci -1 to znaczy ze nie znalazlo w ciastach poprzednio zaznaczonego indexu
         if (pageSizeComboBox.getGridPageSize() != -1) {
 
@@ -75,8 +74,8 @@ public class VariablePageSizePagingToolBar extends PagingToolBar implements Tola
 //  przy zmianie wartosci w comboboxie zawsze przewijaj do pierwszej strony i ustaw nowo wybrana wartosc jako page size
         getPageSizeComboBox().addListener(Events.Select, new Listener<BaseEvent>() {
             public void handleEvent(BaseEvent be) {
-                VariablePageSizePagingToolBar.this.setPageSize(getPageSizeComboBox().getValue().getSize());
-                VariablePageSizePagingToolBar.this.first();
+                VariablePageSizePagingToolBarWithMemmory.this.setPageSize(getPageSizeComboBox().getValue().getSize());
+                VariablePageSizePagingToolBarWithMemmory.this.first();
 
             }
         });
@@ -115,7 +114,7 @@ public class VariablePageSizePagingToolBar extends PagingToolBar implements Tola
      * Zmodyfikowany ComboBoxWithMemory tak aby przechowywal tylko wartosci wyboru dla ilosci
      * wierszy na stronie
      */
-    public static class ChoosePageSizeComboBox extends ComboBox<PageSize> {
+    public static class ChoosePageSizeComboBox extends ComboBoxWithMemory<PageSize> {
 
         protected ListStore<PageSize> pageSizeStore = new ListStore<PageSize>();
 
@@ -126,8 +125,8 @@ public class VariablePageSizePagingToolBar extends PagingToolBar implements Tola
             this.pageSizeStore = pageSizeStore;
         }
 
-        public ChoosePageSizeComboBox() {
-            super();
+        public ChoosePageSizeComboBox(String uniqueName) {
+            super(uniqueName);
             pageSizeStore.add(PageSize.DEFAULT_SET);
             this.setStore(pageSizeStore);
             this.setEditable(false);
@@ -155,5 +154,4 @@ public class VariablePageSizePagingToolBar extends PagingToolBar implements Tola
 
     }
 
-    
 }

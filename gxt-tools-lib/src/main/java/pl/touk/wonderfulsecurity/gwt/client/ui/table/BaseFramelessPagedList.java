@@ -9,7 +9,10 @@ package pl.touk.wonderfulsecurity.gwt.client.ui.table;
 public abstract class BaseFramelessPagedList<T> extends BasePagedList<T> {
 
     protected BaseFramelessPagedList(Class clazz, String uniqueName, String id) {
-        super(clazz, uniqueName, id);
+        this(clazz, uniqueName, id, true);
+    }
+    protected BaseFramelessPagedList(Class clazz, String uniqueName, String id, boolean withMemory) {
+        super(clazz, uniqueName, id, withMemory);
         setFrame(false);
         setBodyBorder(false);
         setHeaderVisible(false);
