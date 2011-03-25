@@ -38,16 +38,20 @@
             <type>pom</type>
             <exclusions>
                 <exclusion>
-                     <groupId>com.google.gwt</groupId>
+                    <groupId>com.google.gwt</groupId>
                     <artifactId>gwt-dev</artifactId>
                 </exclusion>
                 <exclusion>
-                      <groupId>com.google.gwt</groupId>
-            <artifactId>gwt-servlet</artifactId>
+                    <groupId>com.google.gwt</groupId>
+                    <artifactId>gwt-servlet</artifactId>
                 </exclusion>
                 <exclusion>
-                      <groupId>com.google.gwt</groupId>
-            <artifactId>gwt-user</artifactId>
+                    <groupId>com.google.gwt</groupId>
+                    <artifactId>gwt-user</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.extjs</groupId>
+                    <artifactId>gxt</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -79,16 +83,20 @@
             <type>pom</type>
             <exclusions>
                 <exclusion>
-                     <groupId>com.google.gwt</groupId>
+                    <groupId>com.google.gwt</groupId>
                     <artifactId>gwt-dev</artifactId>
                 </exclusion>
                 <exclusion>
-                      <groupId>com.google.gwt</groupId>
-            <artifactId>gwt-servlet</artifactId>
+                    <groupId>com.extjs</groupId>
+                    <artifactId>gxt</artifactId>
                 </exclusion>
                 <exclusion>
-                      <groupId>com.google.gwt</groupId>
-            <artifactId>gwt-user</artifactId>
+                    <groupId>com.google.gwt</groupId>
+                    <artifactId>gwt-servlet</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.google.gwt</groupId>
+                    <artifactId>gwt-user</artifactId>
                 </exclusion>
                 <exclusion>
                     <groupId>org.springframework</groupId>
@@ -97,7 +105,7 @@
             </exclusions>
         </dependency>
 
- <dependency>
+        <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-servlet</artifactId>
             <version>2.1.0</version>
@@ -107,7 +115,20 @@
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-user</artifactId>
             <version>2.1.0</version>
+            <!--<scope>provided</scope>-->
+        </dependency>
+      <!--  <dependency>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt</artifactId>
+            <version>2.1.0</version>
             <scope>provided</scope>
+        </dependency>-->
+
+        <dependency>
+            <groupId>com.extjs</groupId>
+            <artifactId>gxt</artifactId>
+            <version>2.2.1</version>
+            <!--<scope>provided</scope>-->
         </dependency>
 
         <dependency>

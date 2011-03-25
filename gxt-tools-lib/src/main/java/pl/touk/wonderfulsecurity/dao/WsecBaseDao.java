@@ -55,6 +55,7 @@ public interface WsecBaseDao {
      * then specify map entry <K,V> <LIKE_MATCH_END_SUFFIX+firstName, lkc>
      */
     public static final String LIKE_MATCH_END_SUFFIX = "@#LIKE_MATCH_END";
+    
 
 // -------------------------- OTHER METHODS --------------------------
 
