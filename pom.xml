@@ -5,7 +5,7 @@
     <artifactId>gxt-tools</artifactId>
     <name>Gxt tools</name>
 
-    <version>1.5.0</version>
+    <version>1.5.1-SNAPSHOT</version>
 
  <distributionManagement>
     <repository>
@@ -332,9 +332,9 @@
      <url>Url</url>
 
      <scm>
-         <connection>scm:svn:http://top.touk.pl/svn/gxt-tools/tags/gxt-tools-1.5.0</connection>
-         <developerConnection>scm:svn:http://top.touk.pl/svn/gxt-tools/tags/gxt-tools-1.5.0</developerConnection>
-         <url>http://top.touk.pl/svn/gxt-tools/tags/gxt-tools-1.5.0</url>
+         <connection>scm:svn:http://top.touk.pl/svn/gxt-tools/tags/gxt-tools-1.4.1</connection>
+         <developerConnection>scm:svn:http://top.touk.pl/svn/gxt-tools/tags/gxt-tools-1.4.1</developerConnection>
+         <url>http://top.touk.pl/svn/gxt-tools/tags/gxt-tools-1.4.1</url>
      </scm>
     
 </project>
