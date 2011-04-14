@@ -5,6 +5,9 @@ import com.extjs.gxt.ui.client.data.LoadEvent;
 import com.extjs.gxt.ui.client.data.ModelData;
 import com.extjs.gxt.ui.client.data.TreeModel;
 import com.extjs.gxt.ui.client.event.*;
+import com.extjs.gxt.ui.client.store.ListStore;
+import com.extjs.gxt.ui.client.store.Store;
+import com.extjs.gxt.ui.client.store.StoreEvent;
 import com.extjs.gxt.ui.client.widget.Component;
 import com.extjs.gxt.ui.client.widget.Label;
 import com.extjs.gxt.ui.client.widget.button.Button;
@@ -367,6 +370,22 @@ public class ViewMemberFactory {
             
             public void addHandler(HandlerWithEvent h) {
                 throw new UnsupportedOperationException("not implemented");
+            }
+        };
+    }
+
+    public static HasFilterChanged createHasFilterChanged(final ListStore<ModelData> store) {
+    return new HasFilterChanged() {
+
+            @Override
+            public void addHandler( final Handler h ) {
+                store.addListener( Store.Filter, new Listener<StoreEvent>() {
+
+                    @Override
+                    public void handleEvent( StoreEvent se ) {
+                        h.onFilterChange( se );
+                    }
+                } );
             }
         };
     }
