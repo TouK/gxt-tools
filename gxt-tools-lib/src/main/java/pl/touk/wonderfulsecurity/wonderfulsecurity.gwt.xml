@@ -1,5 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module SYSTEM "http://google-web-toolkit.googlecode.com/svn/releases/1.5/distro-source/core/src/gwt-module.dtd">
 <module>
-
 
     <inherits name="com.google.gwt.user.User"/>
     <inherits name="com.extjs.gxt.ui.GXT"/>
@@ -35,18 +36,28 @@
     <!--<extend-property name="log_level" values="DEBUG"/>-->
 
     <source path="beans"/>
-    <source path="exceptions"/>
-    <source path="utils">
-        <exclude name="**/*PrepareDemoData*"/>
-    </source>
-    <source path="helpers"/>
-    <source path="shared"/>
-    <source path="gwt/client"/>
-    <source path="service">
-        <exclude name="**/*Impl*"/>
-    </source>
+
     <source path="core">
         <exclude name="**/*ServerSecurity*"/>
     </source>
-    <stylesheet src ="css/wsec.css"/>
+
+    <source path="exceptions"/>
+
+    <source path="gwt/client"/>
+
+    <source path="helpers"/>
+
+    <source path="service">
+        <exclude name="**/*Impl*"/>
+    </source>
+
+    <source path="shared"/>
+
+    <source path="utils">
+        <exclude name="**/*PrepareDemoData*"/>
+        <exclude name="**/*StartupConfigurer*"/>
+    </source>
+
+    <stylesheet src="css/wsec.css"/>
+
 </module>

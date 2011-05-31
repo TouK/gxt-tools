@@ -1,39 +1,27 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
     <groupId>pl.touk.gwt</groupId>
     <artifactId>gxt-tools</artifactId>
+
     <name>Gxt tools</name>
+    <description>GWT utilities and libraries</description>
 
     <version>1.4.16-SNAPSHOT</version>
-
- <distributionManagement>
-    <repository>
-        <id>top.release</id>
-        <name>TouK Open source repository</name>
-        <url>sftp://top.touk.pl/release/</url>
-    </repository>
-    <snapshotRepository>
-        <id>top.snapshot</id>
-        <name>TouK open source snapshot repository</name>
-        <url>sftp://top.touk.pl/snapshot</url>
-    </snapshotRepository>
-</distributionManagement>
 
     <parent>
         <groupId>pl.touk</groupId>
         <artifactId>top</artifactId>
-        <version>1.0.1</version>
+        <version>1.0.3</version>
     </parent>
 
- 
     <modules>
         <module>gxt-tools-lib</module>
         <module>security-usage-example</module>
         <module>tola-usage-example</module>
         <module>dictionary-example</module>
         <module>security-ddl-gen</module>
-
     </modules>
 
 
@@ -48,7 +36,6 @@
 
         <gmaven-mojo.version>1.0</gmaven-mojo.version>
         <groovy-all.version>1.7.0</groovy-all.version>
-
 
         <hibernate4gwt.version>1.1.1</hibernate4gwt.version>
         <beanlib-hibernate.version>3.3.0beta20b</beanlib-hibernate.version>
@@ -178,8 +165,6 @@
                             </dependency>
                     </dependencies>
                 </plugin>
-
-
             </plugins>
         </pluginManagement>
     </build>
@@ -292,13 +277,10 @@
          </repository>
      </repositories>
 
-     <description>GWT utilities and libraries</description>
-     <url>Url</url>
-
      <scm>
-         <connection>scm:svn:http://top.touk.pl/svn/gxt-tools/tags/gxt-tools-1.4.1</connection>
-         <developerConnection>scm:svn:http://top.touk.pl/svn/gxt-tools/tags/gxt-tools-1.4.1</developerConnection>
-         <url>http://top.touk.pl/svn/gxt-tools/tags/gxt-tools-1.4.1</url>
+         <connection>scm:svn:http://top.touk.pl/svn/gxt-tools/trunk</connection>
+         <developerConnection>scm:svn:http://top.touk.pl/svn/gxt-tools/trunk</developerConnection>
+         <url>http://top.touk.pl/svn/gxt-tools/trunk</url>
      </scm>
     
 </project>
