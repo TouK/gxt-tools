@@ -55,7 +55,7 @@ public class WsecBaseDaoImpl extends HibernateDaoSupport implements WsecBaseDao 
     }
 
     public <E> E fetchById(Class<E> c, Serializable id) {
-        return (E) getHibernateTemplate().get(c, id);
+        return getHibernateTemplate().get(c, id);
     }
 
     public int fetchCount(final Map<String, ?> queryParameters, final Class clazz) {
@@ -67,12 +67,12 @@ public class WsecBaseDaoImpl extends HibernateDaoSupport implements WsecBaseDao 
             }
         });
 
-        return ((Number) o).intValue();
+        return o != null ? ((Number) o).intValue() : 0;
     }
     
     public <E> ArrayList<E> fetchList(final Map<String, ?> queryParameters, final String sortColumn, final Boolean desc, final Class<E> clazz) {
         {
-            ArrayList<E> list = (ArrayList<E>) getHibernateTemplate().execute(new HibernateCallback() {
+            ArrayList<E> list = new ArrayList<E>((Collection<E>)getHibernateTemplate().execute(new HibernateCallback() {
 
                 public Object doInHibernate(Session session) throws HibernateException, SQLException {
                     DetachedCriteria detachedCriteria = buildCriteriaFromMapOfParameters(queryParameters, clazz);
@@ -80,7 +80,7 @@ public class WsecBaseDaoImpl extends HibernateDaoSupport implements WsecBaseDao 
                     applySorting(criteria, sortColumn, desc);
                     return criteria.list();
                 }
-            });
+            }));
 
 
             return list != null ? list : new ArrayList();
@@ -92,14 +92,14 @@ public class WsecBaseDaoImpl extends HibernateDaoSupport implements WsecBaseDao 
 
     public <E> ArrayList<E> fetchPagedList(final Map<String, ?> queryParameters, final Integer offset, final Integer howMany,
                                            final String sortColumn, final Boolean desc, final Class<E> clazz) {
-        ArrayList<E> list = (ArrayList<E>) getHibernateTemplate().execute(new HibernateCallback(){
+        ArrayList<E> list = new ArrayList<E>((Collection<E>)getHibernateTemplate().execute(new HibernateCallback(){
             public Object doInHibernate(Session session) throws HibernateException, SQLException {
                 DetachedCriteria detachedCriteria = buildCriteriaFromMapOfParameters(queryParameters, clazz);
                 Criteria criteria = detachedCriteria.getExecutableCriteria(session);
                 applySortingOffSetAndLimit(criteria, offset, howMany, sortColumn, desc);
                 return criteria.list();
             }
-        });
+        }));
 
 
         return list != null ? list : new ArrayList();
