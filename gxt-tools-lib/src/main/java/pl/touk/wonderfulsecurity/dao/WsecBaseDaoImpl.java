@@ -20,6 +20,7 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Order;
+import org.hibernate.metadata.ClassMetadata;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.HibernateException;
@@ -46,6 +47,7 @@ public class WsecBaseDaoImpl extends HibernateDaoSupport implements WsecBaseDao 
     }
 
     public <E> ArrayList<E> fetchAll(Class<E> clazz) {
+        checkIsBeanMapped(clazz);
         List<E> result = getHibernateTemplate().loadAll(clazz);
         if (result instanceof ArrayList){
             return (ArrayList<E>) result;
@@ -55,10 +57,12 @@ public class WsecBaseDaoImpl extends HibernateDaoSupport implements WsecBaseDao 
     }
 
     public <E> E fetchById(Class<E> c, Serializable id) {
+        checkIsBeanMapped(c);
         return getHibernateTemplate().get(c, id);
     }
 
     public int fetchCount(final Map<String, ?> queryParameters, final Class clazz) {
+        checkIsBeanMapped(clazz);
         Object o = getHibernateTemplate().execute(new HibernateCallback() {
             public Object doInHibernate(Session session) throws HibernateException, SQLException {
                 DetachedCriteria criteria = buildCriteriaFromMapOfParameters(queryParameters, clazz);
@@ -71,27 +75,27 @@ public class WsecBaseDaoImpl extends HibernateDaoSupport implements WsecBaseDao 
     }
     
     public <E> ArrayList<E> fetchList(final Map<String, ?> queryParameters, final String sortColumn, final Boolean desc, final Class<E> clazz) {
-        {
-            ArrayList<E> list = new ArrayList<E>((Collection<E>)getHibernateTemplate().execute(new HibernateCallback() {
+        
+        checkIsBeanMapped(clazz);
+        ArrayList<E> list = new ArrayList<E>((Collection<E>)getHibernateTemplate().execute(new HibernateCallback() {
 
-                public Object doInHibernate(Session session) throws HibernateException, SQLException {
-                    DetachedCriteria detachedCriteria = buildCriteriaFromMapOfParameters(queryParameters, clazz);
-                    Criteria criteria = detachedCriteria.getExecutableCriteria(session);
-                    applySorting(criteria, sortColumn, desc);
-                    return criteria.list();
-                }
-            }));
+            public Object doInHibernate(Session session) throws HibernateException, SQLException {
+                DetachedCriteria detachedCriteria = buildCriteriaFromMapOfParameters(queryParameters, clazz);
+                Criteria criteria = detachedCriteria.getExecutableCriteria(session);
+                applySorting(criteria, sortColumn, desc);
+                return criteria.list();
+            }
+        }));
 
 
-            return list != null ? list : new ArrayList();
-        }
-
+        return list != null ? list : new ArrayList();
     }
 
     
 
     public <E> ArrayList<E> fetchPagedList(final Map<String, ?> queryParameters, final Integer offset, final Integer howMany,
                                            final String sortColumn, final Boolean desc, final Class<E> clazz) {
+        checkIsBeanMapped(clazz);
         ArrayList<E> list = new ArrayList<E>((Collection<E>)getHibernateTemplate().execute(new HibernateCallback(){
             public Object doInHibernate(Session session) throws HibernateException, SQLException {
                 DetachedCriteria detachedCriteria = buildCriteriaFromMapOfParameters(queryParameters, clazz);
@@ -107,11 +111,19 @@ public class WsecBaseDaoImpl extends HibernateDaoSupport implements WsecBaseDao 
 
     public <E extends Serializable> PagedQueryResult<E> fetchPagedListWithOverallCount(Map<String, ?> queryParameters, Integer offset,
                                                                         Integer howMany, String sortColumn, Boolean desc, Class<E> clazz) {
+        checkIsBeanMapped(clazz);
         ArrayList list = fetchPagedList(queryParameters, offset, howMany, sortColumn, desc, clazz);
         logger.info("Fatched page");
         int overallCount = fetchCount(queryParameters, clazz);
 
         return new PagedQueryResult(list, overallCount);
+    }
+    
+    private void checkIsBeanMapped(Class clazz) {
+        ClassMetadata classMetadata = getSessionFactory().getClassMetadata(clazz);
+        if (classMetadata == null) {
+            throw new RuntimeException("Bean class not mapped! Add bean class to mapping! Class: " + clazz.getName());
+        }
     }
 
     public void saveOrUpdate(Object object) {

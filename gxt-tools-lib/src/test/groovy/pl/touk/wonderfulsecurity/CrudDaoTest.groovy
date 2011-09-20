@@ -117,7 +117,7 @@ public final class CrudDaoTest {
     @Test
     public void testDeleteAllPermissions(){
       wsecPermissionDao.deleteAll FixtureUtils.PERMISSIONS;
-      assertTrue("Tabela uprawnień powinna byc pusta", wsecPermissionDao.fetchAll(WsecPermissionDao.class).size() == 0) 
+      assertTrue("Tabela uprawnień powinna byc pusta", wsecPermissionDao.fetchAll(WsecPermission.class).size() == 0) 
     }
 
 
