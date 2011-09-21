@@ -1,12 +1,12 @@
 package pl.touk.tola.gwt.client.widgets;
 
+import com.extjs.gxt.ui.client.Style.SortDir;
 import com.extjs.gxt.ui.client.data.*;
 import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.widget.form.ComboBox;
 import com.extjs.gxt.ui.client.widget.form.Field;
 import com.extjs.gxt.ui.client.widget.form.Validator;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import pl.touk.wonderfulsecurity.gwt.client.model.PagedQueryResultReader;
 
@@ -26,6 +26,7 @@ import pl.touk.wonderfulsecurity.gwt.client.ui.table.provider.impl.DefaultPaging
  *
  * @author rpt
  * @author mpr
+ * @author bzd
  */
 public class ComboFromDao extends ComboBox<ModelData> {
 
@@ -37,6 +38,8 @@ public class ComboFromDao extends ComboBox<ModelData> {
     private String displayField;
     private final boolean withTips;
     private boolean triggerClicked = false;
+    private final SortDir sortDir;
+    private RemoteDataFilter dataFilter;
 
     public ComboFromDao(String label, String displayField, Class clazz, boolean editable, boolean withTips) {
         this(label, displayField, displayField, clazz, editable, withTips);
@@ -46,15 +49,21 @@ public class ComboFromDao extends ComboBox<ModelData> {
         this(label, displayField, displayField, clazz, editable, false);
     }
 
+    public ComboFromDao(String label, String displayField, String sortField, Class clazz, boolean editable, boolean withTips) {
+        this(label, displayField, sortField, clazz, editable, withTips, SortDir.NONE);
+    }
+    
     /**
      * Tworzy combo o podanych parametrach.
      * @param label        nazwa comboboxa
      * @param displayField pole z beana, które bedzie wyswietlane
      * @param sortField pole z beana, po ktorym bedzie sortowanie
      * @param clazz        klasa z mapowaniem hiberante
-     * @param editable	   czy combo ma byc edytowalne	
+     * @param editable	   czy combo ma byc edytowalne
+     * @param withTips czy mają być podpowiedzi?
+     * @param sortDirection kierunek sortowania (SortDir.ASC, SortDir.DESC, SortDir.NONE)
      */
-    public ComboFromDao(String label, String displayField, String sortField, Class clazz, boolean editable, boolean withTips) {
+    public ComboFromDao(String label, String displayField, String sortField, Class clazz, boolean editable, boolean withTips, SortDir sortDirection) {
         PagingLoader<PagingLoadResult<ModelData>> loader = createLoader(sortField, clazz);
         setStore(new ListStore(loader));
         setUpCombo(label, displayField);
@@ -66,13 +75,16 @@ public class ComboFromDao extends ComboBox<ModelData> {
         this.sortField = sortField;
         this.displayField = displayField;
         this.withTips = withTips;
+        this.sortDir = sortDirection;
         this.setLazyRender(!editable); //gdy edytowalne, to wyłaczamy lazyInit'a
-
+        checkForRegisteredResultFactory(clazz);
     }
 
-    protected void onRender(Element parent, int index) {
-        super.onRender(parent, index);
-
+    private void checkForRegisteredResultFactory(Class clazz) {
+        BeanModelFactory beanFactory = BeanModelLookup.get().getFactory(clazz);
+        if (beanFactory == null) {
+            throw new RuntimeException("No BeanModelFactory found for " + clazz.getName() + " add @BeanModelMarker or implement BeanModelTag");
+        }
     }
 
     /**
@@ -132,6 +144,7 @@ public class ComboFromDao extends ComboBox<ModelData> {
                 GWT.log("combo from dao loading: " + parametersToQuery);
                 BasePagingLoadConfig basePagingLoadConfig = new BasePagingLoadConfig();
                 basePagingLoadConfig.setSortField(sortField);
+                basePagingLoadConfig.setSortDir(sortDir);
                 //to ponizsze musi zostac, bo inaczej jest max 50 rekordów
                 basePagingLoadConfig.setLimit(NO_LIMIT);
                 basePagingLoadConfig.setOffset(0);
@@ -182,13 +195,21 @@ public class ComboFromDao extends ComboBox<ModelData> {
             }
 
             public void onSuccess(Object data) {
-                original.onSuccess(data);
+                original.onSuccess(filterData(data));
                 GWT.log("return from combo " + getStore().getCount() + " lazyIdProperty: " + lazyIdProperty + " lazyId " + lazyId);
                 updateIdFromLazy();
 
 
             }
         };
+    }
+    
+    private Object filterData(Object data) {
+        if (dataFilter == null) {
+            return data;
+        }
+        
+        return dataFilter.filter(data);
     }
 
     public void updateIdFromLazy() {
@@ -221,5 +242,9 @@ public class ComboFromDao extends ComboBox<ModelData> {
             return (Long) selectedModel.get(property);
         }
         return null;
+    }
+    
+    public void setDataFilter(RemoteDataFilter dataFilter) {
+        this.dataFilter = dataFilter; 
     }
 }
