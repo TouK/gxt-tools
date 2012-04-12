@@ -8,12 +8,12 @@
     <name>Gxt tools</name>
     <description>GWT utilities and libraries</description>
 
-    <version>1.4.16-SNAPSHOT</version>
+    <version>1.4.16</version>
 
     <parent>
         <groupId>pl.touk</groupId>
         <artifactId>top</artifactId>
-        <version>1.0.3</version>
+        <version>1.0.4</version>
     </parent>
 
     <modules>
@@ -49,10 +49,8 @@
 
 
     <build>
-
-
         <plugins>
-
+            
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
@@ -165,6 +163,11 @@
                             </dependency>
                     </dependencies>
                 </plugin>
+                <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.7</version>
+            </plugin>
             </plugins>
         </pluginManagement>
     </build>
@@ -250,37 +253,30 @@
              </releases>
          </repository>
          <repository>
-             <id>top.release</id>
-             <name>TouK Open source repository with release</name>
-             <url>http://top.touk.pl/maven2/release</url>
-             <releases>
-                 <enabled>true</enabled>
-             </releases>
-             <snapshots>
-                 <enabled>false</enabled>
-             </snapshots>
-         </repository>
-         <repository>
-             <id>top.snapshot</id>
-             <name>TouK Open source repository with snapshots</name>
-             <url>http://top.touk.pl/maven2/snapshot</url>
-             <releases>
-                 <enabled>false</enabled>
-             </releases>
-             <snapshots>
-                 <enabled>true</enabled>
-             </snapshots>
-         </repository>
+            <id>maven.touk.pl.releases</id>
+            <name>TouK Open source repository</name>
+            <url>http://maven.touk.pl/nexus/content/repositories/releases/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+        <repository>
+            <id>maven.touk.pl.snapshots</id>
+            <name>TouK open source snapshot repository</name>
+            <url>http://maven.touk.pl/nexus/content/repositories/snapshots/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
          <repository>
              <id>gilead</id>
              <url>https://gilead.svn.sourceforge.net/svnroot/gilead/gilead/maven-repo</url>
          </repository>
      </repositories>
 
-     <scm>
-         <connection>scm:svn:http://top.touk.pl/svn/gxt-tools/trunk</connection>
-         <developerConnection>scm:svn:http://top.touk.pl/svn/gxt-tools/trunk</developerConnection>
-         <url>http://top.touk.pl/svn/gxt-tools/trunk</url>
-     </scm>
-    
+    <scm>
+        <connection>scm:git:git://github.com/TouK/gxt-tools.git</connection>
+        <developerConnection>scm:git:git@github.com:TouK/gxt-tools.git</developerConnection>
+		<url>https://github.com/TouK/gxt-tools.git</url>
+    </scm>
 </project>
