@@ -1,6 +1,6 @@
 /*
-* Copyright (c) 2008 TouK.pl
-* Licensed under the Apache License, Version 2.0 (the "License");
+ * Copyright (c) 2008 TouK.pl
+ * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
@@ -11,7 +11,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 package pl.touk.wonderfulsecurity.dao;
 
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
@@ -29,18 +29,23 @@ import java.io.Serializable;
 import java.util.*;
 import java.sql.SQLException;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.text.DateFormat;
+import java.text.ParseException;
+import org.apache.maven.artifact.versioning.Restriction;
 import pl.touk.wonderfulsecurity.beans.PagedQueryResult;
 
 /**
  * Hibernate base dao implementation
  *
  * @author Lukasz Kucharski - lkc@touk.pl
+ * @author <a href="mailto:msk@touk.pl">Michał Sokołowski</a>
  */
 public class WsecBaseDaoImpl extends HibernateDaoSupport implements WsecBaseDao {
-// ------------------------ INTERFACE METHODS ------------------------
 
-
-// --------------------- Interface WsecBaseDao ---------------------
+    public static final String dateFormatAsStr = "yyyy-MM-dd HH:mm:ss";
+    public static final DateFormat dateFormat = new SimpleDateFormat(dateFormatAsStr);
 
     public void deleteAll(Collection collectionToDelete) {
         getHibernateTemplate().deleteAll(collectionToDelete);
@@ -49,7 +54,7 @@ public class WsecBaseDaoImpl extends HibernateDaoSupport implements WsecBaseDao 
     public <E> ArrayList<E> fetchAll(Class<E> clazz) {
         checkIsBeanMapped(clazz);
         List<E> result = getHibernateTemplate().loadAll(clazz);
-        if (result instanceof ArrayList){
+        if (result instanceof ArrayList) {
             return (ArrayList<E>) result;
         }
         // Collections.EmptyList != ArrayList
@@ -58,12 +63,13 @@ public class WsecBaseDaoImpl extends HibernateDaoSupport implements WsecBaseDao 
 
     public <E> E fetchById(Class<E> c, Serializable id) {
         checkIsBeanMapped(c);
-        return getHibernateTemplate().get(c, id);
+        return (E) getHibernateTemplate().get(c, id);
     }
 
     public int fetchCount(final Map<String, ?> queryParameters, final Class clazz) {
         checkIsBeanMapped(clazz);
         Object o = getHibernateTemplate().execute(new HibernateCallback() {
+
             public Object doInHibernate(Session session) throws HibernateException, SQLException {
                 DetachedCriteria criteria = buildCriteriaFromMapOfParameters(queryParameters, clazz);
                 criteria.setProjection(Projections.rowCount());
@@ -73,52 +79,69 @@ public class WsecBaseDaoImpl extends HibernateDaoSupport implements WsecBaseDao 
 
         return o != null ? ((Number) o).intValue() : 0;
     }
-    
-    public <E> ArrayList<E> fetchList(final Map<String, ?> queryParameters, final String sortColumn, final Boolean desc, final Class<E> clazz) {
-        
-        checkIsBeanMapped(clazz);
-        ArrayList<E> list = new ArrayList<E>((Collection<E>)getHibernateTemplate().execute(new HibernateCallback() {
 
-            public Object doInHibernate(Session session) throws HibernateException, SQLException {
-                DetachedCriteria detachedCriteria = buildCriteriaFromMapOfParameters(queryParameters, clazz);
-                Criteria criteria = detachedCriteria.getExecutableCriteria(session);
-                applySorting(criteria, sortColumn, desc);
-                return criteria.list();
-            }
+    public <E> ArrayList<E> fetchList(final Map<String, ?> queryParameters, final String sortColumn, final Boolean desc, final Class<E> clazz) {
+        {
+        checkIsBeanMapped(clazz);
+            ArrayList<E> list = new ArrayList<E>((Collection<E>)getHibernateTemplate().execute(new HibernateCallback() {
+
+                public Object doInHibernate(Session session) throws HibernateException, SQLException {
+                    DetachedCriteria detachedCriteria = buildCriteriaFromMapOfParameters(queryParameters, clazz);
+                    Criteria criteria = detachedCriteria.getExecutableCriteria(session);
+                    applySorting(criteria, sortColumn, desc);
+                    return criteria.list();
+                }
         }));
 
 
-        return list != null ? list : new ArrayList();
-    }
+            return list != null ? list : new ArrayList();
+        }
 
-    
+    }
 
     public <E> ArrayList<E> fetchPagedList(final Map<String, ?> queryParameters, final Integer offset, final Integer howMany,
                                            final String sortColumn, final Boolean desc, final Class<E> clazz) {
         checkIsBeanMapped(clazz);
-        ArrayList<E> list = new ArrayList<E>((Collection<E>)getHibernateTemplate().execute(new HibernateCallback(){
+        ArrayList<E> list = (ArrayList<E>) getHibernateTemplate().execute(new HibernateCallback() {
+
             public Object doInHibernate(Session session) throws HibernateException, SQLException {
                 DetachedCriteria detachedCriteria = buildCriteriaFromMapOfParameters(queryParameters, clazz);
                 Criteria criteria = detachedCriteria.getExecutableCriteria(session);
                 applySortingOffSetAndLimit(criteria, offset, howMany, sortColumn, desc);
                 return criteria.list();
             }
-        }));
+        });
 
 
         return list != null ? list : new ArrayList();
     }
 
     public <E extends Serializable> PagedQueryResult<E> fetchPagedListWithOverallCount(Map<String, ?> queryParameters, Integer offset,
-                                                                        Integer howMany, String sortColumn, Boolean desc, Class<E> clazz) {
+                Integer howMany, String sortColumn, Boolean desc, Class<E> clazz) {
+            checkIsBeanMapped(clazz);
+            ArrayList list = fetchPagedList(queryParameters, offset, howMany, sortColumn, desc, clazz);
+            logger.info("Fatched page");
+            int overallCount = fetchCount(queryParameters, clazz);
+
+            return new PagedQueryResult(list, overallCount);
+    }
+
+    public <E extends Serializable> PagedQueryResult<E> fetchPagedListWithOverallCount(Map<String, ?> queryParameters, Integer offset,
+                                                                                       Integer howMany, String sortColumn, Boolean desc, Long maxObjectsInPageList, Class<E> clazz ) {
         checkIsBeanMapped(clazz);
-        ArrayList list = fetchPagedList(queryParameters, offset, howMany, sortColumn, desc, clazz);
+        ArrayList takenListOfClazz;
         logger.info("Fatched page");
         int overallCount = fetchCount(queryParameters, clazz);
 
-        return new PagedQueryResult(list, overallCount);
+        if (maxObjectsInPageList != null && maxObjectsInPageList > 0) {
+            takenListOfClazz = overallCount > maxObjectsInPageList ? new ArrayList() : fetchPagedList(queryParameters, offset, howMany, sortColumn, desc, clazz);
+        } else {
+            takenListOfClazz = fetchPagedList(queryParameters, offset, howMany, sortColumn, desc, clazz);
+        }
+
+        return new PagedQueryResult(takenListOfClazz, overallCount);
     }
-    
+
     private void checkIsBeanMapped(Class clazz) {
         ClassMetadata classMetadata = getSessionFactory().getClassMetadata(clazz);
         if (classMetadata == null) {
@@ -128,7 +151,7 @@ public class WsecBaseDaoImpl extends HibernateDaoSupport implements WsecBaseDao 
 
     public void saveOrUpdate(Object object) {
         getHibernateTemplate().saveOrUpdate(object);
-        
+
     }
 
     public void saveOrUpdateAll(Collection entityCollection) {
@@ -149,11 +172,11 @@ public class WsecBaseDaoImpl extends HibernateDaoSupport implements WsecBaseDao 
         }
     }
 
-    public void delete(Object object){
-		getHibernateTemplate().delete(object);
-	}
+    public void delete(Object object) {
+        getHibernateTemplate().delete(object);
+    }
 
-// -------------------------- OTHER METHODS --------------------------
+    // -------------------------- OTHER METHODS --------------------------
 
     protected Criteria applySorting(Criteria criteria, String sortColumn, Boolean desc) {
 
@@ -170,7 +193,8 @@ public class WsecBaseDaoImpl extends HibernateDaoSupport implements WsecBaseDao 
 
         return criteria;
     }
-    protected Criteria applySortingOffSetAndLimit(Criteria criteria ,Integer offset, Integer howMany, String sortColumn, Boolean desc) {
+
+    protected Criteria applySortingOffSetAndLimit(Criteria criteria, Integer offset, Integer howMany, String sortColumn, Boolean desc) {
         if (offset == null && howMany != null || offset != null && howMany == null) {
             throw new IllegalArgumentException("Both howMany and offset has to be either null or non null references");
         }
@@ -190,7 +214,7 @@ public class WsecBaseDaoImpl extends HibernateDaoSupport implements WsecBaseDao 
         }
 
         if (doSort) {
-            if (sortColumn.indexOf(".")==-1) {
+            if (sortColumn.indexOf(".") == -1) {
                 criteria.addOrder(desc ? Order.desc(sortColumn) : Order.asc(sortColumn));
             } else {
                 //handles only one nested property
@@ -233,10 +257,34 @@ public class WsecBaseDaoImpl extends HibernateDaoSupport implements WsecBaseDao 
     private void applyFilters(String key, Object filter, DetachedCriteria criteria) {
         if (key.endsWith(LIKE_SUFFIX)) {
             criteria.add(Restrictions.like(key.substring(0, key.length() - LIKE_SUFFIX.length()), "%" + filter + "%"));
+        } else if (key.endsWith(LIKE_DATE_SUFFIX)) {
+            String realKey = key.substring(0, key.length() - LIKE_DATE_SUFFIX.length());
+            Date dateFilter = ((Date) filter);
+            Date plus24h = new Date();
+            plus24h.setTime(dateFilter.getTime()+86399999l);
+            criteria.add(Restrictions.between(realKey, dateFilter, plus24h));
+        }else if (key.endsWith(NULL_END_SUFFIX)) {
+            criteria.add(Restrictions.isNull(key.substring(0, key.length() - NULL_END_SUFFIX.length())));
+        } else if (key.endsWith(NOT_NULL_END_SUFFIX)) {
+            criteria.add(Restrictions.isNotNull(key.substring(0, key.length() - NOT_NULL_END_SUFFIX.length())));
         } else if (key.endsWith(LIKE_MATCH_START_SUFFIX)) {
             criteria.add(Restrictions.like(key.substring(0, key.length() - LIKE_MATCH_START_SUFFIX.length()), filter + "%"));
+        } else if (key.endsWith(NOT_LIKE_END_SUFFIX)) {
+            criteria.add(Restrictions.not(Restrictions.like(key.substring(0, key.length() - NOT_LIKE_END_SUFFIX.length()), "%"+filter + "%")));
         } else if (key.endsWith(LIKE_MATCH_END_SUFFIX)) {
             criteria.add(Restrictions.like(key.substring(0, key.length() - LIKE_MATCH_END_SUFFIX.length()), "%" + filter));
+        } else if (key.endsWith(BETWEEN_DATES_END_SUFFIX)) {
+            String realKeyWithUpperLimit = key.substring(0, key.length() - BETWEEN_DATES_END_SUFFIX.length());
+            String upperLimitAsStr = realKeyWithUpperLimit.substring(realKeyWithUpperLimit.indexOf("|") + 1);
+            try {
+                Date upperLimit = new Timestamp(dateFormat.parse(upperLimitAsStr).getTime());
+                String realKey = realKeyWithUpperLimit.substring(0, realKeyWithUpperLimit.indexOf("|"));
+                criteria.add(Restrictions.between(realKey, new Timestamp(((Date) filter).getTime()), upperLimit));
+            } catch (ParseException e) {
+                throw new IllegalArgumentException("for the key '" + key + "' the date '" + upperLimitAsStr + "' can't be parsed according to the format '" + dateFormatAsStr, e);
+            }
+        } else if (key.endsWith(EVERYTHING_EXCEPT_END_SUFFIX)) {
+            criteria.add(Restrictions.or(Restrictions.ne(key.substring(0, key.length() - EVERYTHING_EXCEPT_END_SUFFIX.length()), filter), Restrictions.isNull(key.substring(0, key.length() - EVERYTHING_EXCEPT_END_SUFFIX.length()))));
         } else if (filter == null) {
             criteria.add(Restrictions.isNull(key));
         } else if (filter instanceof Collection) {
@@ -246,4 +294,3 @@ public class WsecBaseDaoImpl extends HibernateDaoSupport implements WsecBaseDao 
         }
     }
 }
-

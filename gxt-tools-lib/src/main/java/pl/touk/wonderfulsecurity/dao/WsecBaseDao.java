@@ -55,6 +55,13 @@ public interface WsecBaseDao {
      * then specify map entry <K,V> <LIKE_MATCH_END_SUFFIX+firstName, lkc>
      */
     public static final String LIKE_MATCH_END_SUFFIX = "@#LIKE_MATCH_END";
+    //TODO: comment this
+    public static final String BETWEEN_DATES_END_SUFFIX = "@#BETWEEN_DATE_END";
+    public static final String EVERYTHING_EXCEPT_END_SUFFIX = "@#EVERYTHING_EXCEPT_END_SUFFIX";
+    public static final String NULL_END_SUFFIX = "@#NULL_END_SUFFIX";
+    public static final String NOT_NULL_END_SUFFIX = "@#NOT_NULL_END_SUFFIX";
+    public static final String NOT_LIKE_END_SUFFIX = "@#NOT_LIKE_END_SUFFIX";
+    public static final String LIKE_DATE_SUFFIX = "@#LIKE_DATE_SUFFIX";
 
 // -------------------------- OTHER METHODS --------------------------
 
@@ -95,7 +102,7 @@ public interface WsecBaseDao {
 
     /**
      * Fetch list of entities matching criteria in input map.
-     * 
+     *
      * @param queryParameters query parameters in form of a map. Key represents fieldName and value represents desired
      *                        criteria value. Eg. If you want to fetch Users whose firstName is lkc then add following entry to queryParametersMap:<br>
      *                        <code>queryParameters.add("firstName","lkc")</code>. <br>
@@ -107,6 +114,7 @@ public interface WsecBaseDao {
      * @return
      */
     public <E> ArrayList<E> fetchList(final Map<String, ?> queryParameters, final String sortColumn, final Boolean desc, final Class<E> clazz);
+
     /**
      * Fetch paged list of entities matching criteria expressed via map of parameters
      *
@@ -139,6 +147,8 @@ public interface WsecBaseDao {
      */
     public <E extends Serializable> PagedQueryResult<E> fetchPagedListWithOverallCount(Map<String, ?> queryParameters, Integer offset, Integer howMany, String sortColumn, Boolean desc, Class<E> clazz);
 
+    public <E extends Serializable> PagedQueryResult<E> fetchPagedListWithOverallCount(Map<String, ?> queryParameters, Integer offset, Integer howMany, String sortColumn, Boolean desc, Long maxObjectsInPageList, Class<E> clazz);
+
     /**
      * Save transient object or update detached object
      */
@@ -163,10 +173,11 @@ public interface WsecBaseDao {
      *
      */
     public void persistAll(Collection c);
-	/**
-	 * Delete object
-	 * @param object
-	 */
-	public void delete(Object object);
+
+    /**
+     * Delete object
+     * @param object
+     */
+    public void delete(Object object);
 
 }
