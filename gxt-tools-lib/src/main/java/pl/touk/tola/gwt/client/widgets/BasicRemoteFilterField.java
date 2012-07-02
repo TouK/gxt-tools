@@ -143,16 +143,17 @@ public class BasicRemoteFilterField extends TriggerField implements Listener {
         GWT.log("Handle event before load", null);
 
         if ((be != null) && (be.getType() == Loader.BeforeLoad)) {
-            LoadEvent loadEvent = (LoadEvent) be;
-            BasePagingLoadConfig config = (BasePagingLoadConfig) loadEvent.getConfig();
+            handleBeforeLoadEvent((LoadEvent) be);
+        }
+    }
 
-            //        Map filterMap = config.getFilterMap();
-            if ((this.getValue() == null)
-                    || this.getValue().toString().trim().equals("")) {
-                config.remove(filteredPropertyName);
-            } else {
-                config.set(filteredPropertyName, this.getValue());
-            }
+    protected void handleBeforeLoadEvent(LoadEvent loadEvent) {
+        BasePagingLoadConfig config = (BasePagingLoadConfig) loadEvent.getConfig();
+
+        if ((this.getValue() == null) || this.getValue().toString().trim().equals("")) {
+            config.remove(filteredPropertyName);
+        } else {
+            config.set(filteredPropertyName, this.getValue());
         }
     }
 

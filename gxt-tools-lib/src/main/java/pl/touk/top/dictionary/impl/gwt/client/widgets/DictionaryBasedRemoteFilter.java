@@ -18,6 +18,7 @@ package pl.touk.top.dictionary.impl.gwt.client.widgets;
 import com.extjs.gxt.ui.client.data.*;
 import com.extjs.gxt.ui.client.event.*;
 import com.extjs.gxt.ui.client.widget.toolbar.PagingToolBar;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.*;
 
 
@@ -74,49 +75,57 @@ public class DictionaryBasedRemoteFilter<D extends ModelData> extends ComboBoxWi
 
     // --------------------- Interface Listener ---------------------
 
-    public void handleEvent(BaseEvent be) {
-        if (be.getType() == Events.Select) {
-            doFilter();
+    public void handleEvent(BaseEvent baseEvent) {
+        if (baseEvent.getType() == Events.Select) {
+            handleSelectEvent();
+            return;
+        }//Events.TwinTriggerClick
+
+        if (baseEvent.getType() == Loader.BeforeLoad) {
+            handleBeforeLoadEvent((LoadEvent) baseEvent);
+            return;
         }
+    }
 
-        if (be.getType() == Loader.BeforeLoad) {
-            LoadEvent loadEvent = (LoadEvent) be;
-            BasePagingLoadConfig config = (BasePagingLoadConfig) loadEvent.getConfig();
-            config.setAllowNestedValues(false);
+    protected void handleBeforeLoadEvent(LoadEvent loadEvent) {
+        BasePagingLoadConfig config = (BasePagingLoadConfig) loadEvent.getConfig();
+        config.setAllowNestedValues(false);
 
-            if ((this.getValue() == null) || this.getValue().toString().trim().equals("")) {
-                config.remove(filteredPropertyName);
-            } else {
-                //try to convert to long
-                String key = this.getValue().get(ENTRYKEY);
-                Object converted = null;
-                switch (conversionType) {
-                    case INTEGER:
-                        try {
-                            converted = new Integer(key);
-                            config.set(filteredPropertyName, converted);
-                        } catch (NumberFormatException nex) {
-                            Window.alert("Błąd konwersji danych w filtrze. Na integer nie mozna przekonwertowac wartosci: " + key);
-                        }
-                        break;
-                    case LONG:
-                        try {
-                            converted = new Long(key);
-                            config.set(filteredPropertyName, converted);
-                        } catch (NumberFormatException nex) {
-                            Window.alert("Błąd konwersji danych w filtrze. Na long nie mozna przekonwertowac wartosci: " + key);
-                        }
-                        break;
-                   case STRING:
-                       converted = key;
+        if ((this.getValue() == null) || this.getValue().toString().trim().equals("")) {
+            config.remove(filteredPropertyName);
+        } else {
+            String key = this.getValue().get(ENTRYKEY);
+            Object converted = convertValue(key);
 
+            config.set(filteredPropertyName, converted);
+        }
+    }
 
+    protected Object convertValue(String key) {
+        Object converted = null;
+        switch (conversionType) {
+            case INTEGER:
+                try {
+                    converted = new Integer(key);
+                } catch (NumberFormatException nex) {
+                    GWT.log("Błąd konwersji danych w filtrze. Na integer nie mozna przekonwertowac wartosci: " + key);
                 }
-
-               config.set(filteredPropertyName, converted);
-
-            }
+                break;
+            case LONG:
+                try {
+                    converted = new Long(key);
+                } catch (NumberFormatException nex) {
+                    GWT.log("Błąd konwersji danych w filtrze. Na long nie mozna przekonwertowac wartosci: " + key);
+                }
+                break;
+           case STRING:
+               converted = key;
         }
+        return converted;
+    }
+
+    protected void handleSelectEvent() {
+        doFilter();
     }
 
     @Override
