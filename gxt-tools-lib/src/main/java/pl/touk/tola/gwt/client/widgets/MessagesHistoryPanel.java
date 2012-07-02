@@ -23,11 +23,11 @@ import pl.touk.tola.gwt.client.widgets.grid.TolaGxtGrid;
 
 import java.util.*;
 
-
 /**
  * @author Rafał Pietrasik rpt@touk.pl
  *
  * Migracja i przerobki na potrzeby toli - Lukasz Kucharski lkc@touk.pl
+ * Metoda 'onAddMessage' na potrzeby MNPC - Adam Jurzyk ajr@touk.pl
  */
 public class MessagesHistoryPanel extends ContentPanel {
 
@@ -48,25 +48,25 @@ public class MessagesHistoryPanel extends ContentPanel {
         }
     }
 
-    private static DateTimeFormat DATE_FORMAT = DateTimeFormat.getFormat("dd/MM/yy HH:mm:ss");
-    private TolaGxtGrid messagesGrid;
+    protected static DateTimeFormat DATE_FORMAT = DateTimeFormat.getFormat("dd/MM/yy HH:mm:ss");
+    protected TolaGxtGrid messagesGrid;
 
 
     public MessagesHistoryPanel() {
-        
-        Button clearBt = new Button("Wyczyść", new SelectionListener<ButtonEvent>() {
+        this(true);
+    }
 
-            public void componentSelected(ButtonEvent arg0) {
-                messagesGrid.getStore().removeAll();
-            }
-        });
-
-        clearBt.setId("MHPclearBtn");
-        ToolBar topToolBar = new ToolBar();
-        topToolBar.add(clearBt);
-        this.setBottomComponent(topToolBar);
+    public MessagesHistoryPanel(boolean withClearButton) {
+        if (withClearButton) {
+            addClearButton();
+        }
         this.setHeading("Komunikaty");
         this.setLayout(new FitLayout());
+    }
+
+
+    protected void clearMessages() {
+        messagesGrid.getStore().removeAll();
     }
 
     @Override
@@ -124,14 +124,35 @@ public class MessagesHistoryPanel extends ContentPanel {
     }
 
     public void addMessage(String  message, Type type) {
-
-
         Map<String,Object> data = new HashMap();
         data.put("date", DATE_FORMAT.format(new Date()));
         data.put("type", type);
         data.put("message", message);
 
+        onAddMessage(type);
 
         messagesGrid.getStore().insert(new BaseModel(data),0);
+    }
+
+    /**
+     * Allows to run custom actions on 'addMessage' call. By default does nothing.
+     * @param type
+     * @since 1.4.17
+     */
+    protected void onAddMessage(Type type) {
+    }
+
+    private void addClearButton() {
+        Button clearBt = new Button("Wyczyść", new SelectionListener<ButtonEvent>() {
+
+            public void componentSelected(ButtonEvent arg0) {
+                clearMessages();
+            }
+        });
+
+        clearBt.setId("MHPclearBtn");
+        ToolBar topToolBar = new ToolBar();
+        topToolBar.add(clearBt);
+        this.setBottomComponent(topToolBar);
     }
 }
