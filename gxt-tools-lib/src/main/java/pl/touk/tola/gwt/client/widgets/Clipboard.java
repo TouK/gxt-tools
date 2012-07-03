@@ -16,7 +16,6 @@
 package pl.touk.tola.gwt.client.widgets;
 
 import com.extjs.gxt.ui.client.GXT;
-import com.extjs.gxt.ui.client.widget.MessageBox;
 
 
 /**
@@ -25,9 +24,7 @@ import com.extjs.gxt.ui.client.widget.MessageBox;
 public class Clipboard {
     public static void setText(String s) {
         if (!GXT.isIE) {
-            MessageBox.alert("Błąd przeglądarki",
-                "Funkcja schowka obsługiwana jedynie przez Internet Explorer 6+<br>" +
-                "<br>" + "Kopiowany tekst: " + s, null);
+            MessageWindow.show("Funkcja schowka obsługiwana tylko przez Internet Explorer 6+", s);
         } else {
             nativeSetText(s);
         }
