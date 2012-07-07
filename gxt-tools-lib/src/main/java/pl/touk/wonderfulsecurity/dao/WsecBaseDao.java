@@ -41,6 +41,7 @@ public interface WsecBaseDao {
      * then specify map entry <K,V> <LIKE_SUFFIX+firstName, lkc>
      */
     public static final String LIKE_SUFFIX = "@#LIKE";
+    public static final String I_LIKE_SUFFIX = "@#I_LIKE";
     /**
      * This field should be used as map key in {@link #fetchPagedList(java.util.Map, Integer, Integer, String, Boolean, Class)}
      * and other methods that take query parameters as Map. <br>
@@ -48,6 +49,13 @@ public interface WsecBaseDao {
      * then specify map entry <K,V> <LIKE_MATCH_START_SUFFIX+firstName, lkc>
      */
     public static final String LIKE_MATCH_START_SUFFIX = "@#LIKE_MATCH_START";
+
+    /**
+     * The same as LIKE_MATCH_START_SUFFIX but CASE INSENSITIVE
+     */
+    public static final String I_LIKE_MATCH_START_SUFFIX = "@#I_LIKE_MATCH_START";
+
+
     /**
      * This field should be used as map key in {@link #fetchPagedList(java.util.Map, Integer, Integer, String, Boolean, Class)}
      * and other methods that take query parameters as Map. <br>
@@ -55,6 +63,7 @@ public interface WsecBaseDao {
      * then specify map entry <K,V> <LIKE_MATCH_END_SUFFIX+firstName, lkc>
      */
     public static final String LIKE_MATCH_END_SUFFIX = "@#LIKE_MATCH_END";
+    public static final String I_LIKE_MATCH_END_SUFFIX = "@#I_LIKE_MATCH_END";
     //TODO: comment this
     public static final String BETWEEN_DATES_END_SUFFIX = "@#BETWEEN_DATE_END";
     public static final String EVERYTHING_EXCEPT_END_SUFFIX = "@#EVERYTHING_EXCEPT_END_SUFFIX";

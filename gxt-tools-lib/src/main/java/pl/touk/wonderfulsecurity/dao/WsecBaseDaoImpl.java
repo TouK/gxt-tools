@@ -120,7 +120,7 @@ public class WsecBaseDaoImpl extends HibernateDaoSupport implements WsecBaseDao 
                 Integer howMany, String sortColumn, Boolean desc, Class<E> clazz) {
             checkIsBeanMapped(clazz);
             ArrayList list = fetchPagedList(queryParameters, offset, howMany, sortColumn, desc, clazz);
-            logger.info("Fatched page");
+            logger.info("Fetched page");
             int overallCount = fetchCount(queryParameters, clazz);
 
             return new PagedQueryResult(list, overallCount);
@@ -130,7 +130,7 @@ public class WsecBaseDaoImpl extends HibernateDaoSupport implements WsecBaseDao 
                                                                                        Integer howMany, String sortColumn, Boolean desc, Long maxObjectsInPageList, Class<E> clazz ) {
         checkIsBeanMapped(clazz);
         ArrayList takenListOfClazz;
-        logger.info("Fatched page");
+        logger.info("Fetched page");
         int overallCount = fetchCount(queryParameters, clazz);
 
         if (maxObjectsInPageList != null && maxObjectsInPageList > 0) {
@@ -257,6 +257,8 @@ public class WsecBaseDaoImpl extends HibernateDaoSupport implements WsecBaseDao 
     private void applyFilters(String key, Object filter, DetachedCriteria criteria) {
         if (key.endsWith(LIKE_SUFFIX)) {
             criteria.add(Restrictions.like(key.substring(0, key.length() - LIKE_SUFFIX.length()), "%" + filter + "%"));
+        } else if (key.endsWith(I_LIKE_SUFFIX)) {
+            criteria.add(Restrictions.ilike(key.substring(0, key.length() - I_LIKE_SUFFIX.length()), "%" + filter + "%"));
         } else if (key.endsWith(LIKE_DATE_SUFFIX)) {
             String realKey = key.substring(0, key.length() - LIKE_DATE_SUFFIX.length());
             Date dateFilter = ((Date) filter);
@@ -269,10 +271,14 @@ public class WsecBaseDaoImpl extends HibernateDaoSupport implements WsecBaseDao 
             criteria.add(Restrictions.isNotNull(key.substring(0, key.length() - NOT_NULL_END_SUFFIX.length())));
         } else if (key.endsWith(LIKE_MATCH_START_SUFFIX)) {
             criteria.add(Restrictions.like(key.substring(0, key.length() - LIKE_MATCH_START_SUFFIX.length()), filter + "%"));
+        } else if (key.endsWith(I_LIKE_MATCH_START_SUFFIX)) {
+            criteria.add(Restrictions.ilike(key.substring(0, key.length() - I_LIKE_MATCH_START_SUFFIX.length()), filter + "%"));
         } else if (key.endsWith(NOT_LIKE_END_SUFFIX)) {
             criteria.add(Restrictions.not(Restrictions.like(key.substring(0, key.length() - NOT_LIKE_END_SUFFIX.length()), "%"+filter + "%")));
         } else if (key.endsWith(LIKE_MATCH_END_SUFFIX)) {
             criteria.add(Restrictions.like(key.substring(0, key.length() - LIKE_MATCH_END_SUFFIX.length()), "%" + filter));
+        } else if (key.endsWith(I_LIKE_MATCH_END_SUFFIX)) {
+            criteria.add(Restrictions.ilike(key.substring(0, key.length() - I_LIKE_MATCH_END_SUFFIX.length()), "%" + filter));
         } else if (key.endsWith(BETWEEN_DATES_END_SUFFIX)) {
             String realKeyWithUpperLimit = key.substring(0, key.length() - BETWEEN_DATES_END_SUFFIX.length());
             String upperLimitAsStr = realKeyWithUpperLimit.substring(realKeyWithUpperLimit.indexOf("|") + 1);
