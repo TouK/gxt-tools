@@ -275,8 +275,8 @@
      </repositories>
 
     <scm>
-        <connection>scm:git:git://github.com/TouK/gxt-tools.git</connection>
-        <developerConnection>scm:git:git@github.com:TouK/gxt-tools.git</developerConnection>
+        <connection>scm:git://github.com/TouK/gxt-tools.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/TouK/gxt-tools.git</developerConnection>
 		<url>https://github.com/TouK/gxt-tools.git</url>
     </scm>
 </project>
