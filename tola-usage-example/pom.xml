@@ -9,7 +9,7 @@
     <parent>
         <artifactId>gxt-tools</artifactId>
         <groupId>pl.touk.gwt</groupId>
-        <version>1.4.17-SNAPSHOT</version>
+        <version>1.4.17</version>
     </parent>
     
     <url>http://maven.apache.org</url>
