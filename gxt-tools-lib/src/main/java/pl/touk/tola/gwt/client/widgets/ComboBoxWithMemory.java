@@ -52,7 +52,7 @@ public class ComboBoxWithMemory<D extends ModelData> extends ComboBox<D> impleme
         }
         this.uniqueName = uniqueName;
         this.addListener(Events.Select, this);
-        TolaStateManager.get().set(uniqueName + STATE_MANAGER_KEY, -1);
+//tu jest resetowane ciastko: TolaStateManager.get().set(uniqueName + STATE_MANAGER_KEY, -1);
     }
 
 //  przechwyc zmiane i zapisz nowy index w StateManagerze
