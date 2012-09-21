@@ -64,7 +64,7 @@ public final class TolaStateManager extends StateManager {
      * @return integer value of saved cookie or default value if cookie has not been found
      */
     public int getInteger(String name, int defaultValue) {
-       int value = super.getInteger(name);
+        int value = getInteger(name);
 
         return (value == -1) ? defaultValue : value;
     }
