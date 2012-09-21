@@ -41,6 +41,21 @@ public final class TolaStateManager extends StateManager {
     }
 
     /**
+     * Bug fix for gxt-2.x com.extjs.gxt.ui.client.state.Provider.getInteger()
+     * That method will throw NPE if value property for given name don't exist.
+     * @param name
+     * @return
+     */
+    @Override
+    public int getInteger(String name) {
+        if (get(name) == null) {
+            return -1;
+        }
+
+        return super.getInteger(name);
+    }
+
+    /**
      * Z powodu dziwnej implementacji statne providera i managera w GXT nie można pobierać ani przechowywać
      * ujemnych wartości.
      *
@@ -49,7 +64,7 @@ public final class TolaStateManager extends StateManager {
      * @return integer value of saved cookie or default value if cookie has not been found
      */
     public int getInteger(String name, int defaultValue) {
-        int value = super.getInteger(name);
+       int value = super.getInteger(name);
 
         return (value == -1) ? defaultValue : value;
     }
