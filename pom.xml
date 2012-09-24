@@ -8,7 +8,7 @@
     <name>Gxt tools</name>
     <description>GWT utilities and libraries</description>
 
-    <version>1.4.19-SNAPSHOT</version>
+    <version>1.4.19</version>
 
     <parent>
         <groupId>pl.touk</groupId>
