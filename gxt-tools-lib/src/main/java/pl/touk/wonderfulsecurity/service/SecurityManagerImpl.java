@@ -471,17 +471,19 @@ public class SecurityManagerImpl implements ISecurityManager{
 		for(WsecUser user : usersToRemoveFromPermission){
 			user.removePermission(permission);
 		}
-        
+
 		baseDao.delete(permission);
 	}
 
 	public WsecUser fetchLoggedInUser() {
-		return ServerSecurity.getLoggedInUser();
+        WsecUser wsecUser = ServerSecurity.getLoggedInUser();
+        wsecUser.setPassword(null);
+        return wsecUser;
 	}
 
 	public Set<WsecPermission> getPermissionsAssignedToRole(String caller, String roleName) {
 		return roleDao.getRoleByName(roleName).getPermissions();
 	}
 
-    
+
 }
